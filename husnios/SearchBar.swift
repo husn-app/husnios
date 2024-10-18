@@ -49,5 +49,6 @@ struct SearchBar: View {
             }
         }
         .animation(.default, value: isEditing)
+        .padding(.horizontal)
     }
 }
