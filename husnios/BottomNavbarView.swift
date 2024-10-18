@@ -21,12 +21,12 @@ struct BottomNavbarView: View {
                 }
                 Spacer()
                 Button(action: {}) {
-                    Image(systemName: "magnifyingglass")
+                    Image(systemName: "lightbulb.fill")
                         .font(.title2)
                 }
                 Spacer()
                 Button(action: {}) {
-                    Image(systemName: "person.crop.circle")
+                    Image(systemName: "heart")
                         .font(.title2)
                 }
                 Spacer()

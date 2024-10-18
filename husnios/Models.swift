@@ -17,3 +17,13 @@ struct Product: Identifiable {
     let index: Int
 }
 
+struct SubInspiration {
+    let name: String
+    let query: String
+    let product: Product
+}
+
+struct Inspiration {
+    let category: String
+    let subInspirations: [SubInspiration]
+}
