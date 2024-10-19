@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct InspirationScreen: View {
-    let inspirations: [Inspiration]
+    let inspirations = sampleInspirations
 
     var body: some View {
         VStack {
@@ -72,5 +72,5 @@ struct SubInspirationView: View {
 }
 
 #Preview {
-    InspirationScreen(inspirations: sampleInspirations)
+    InspirationScreen()
 }
