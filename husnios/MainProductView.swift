@@ -23,7 +23,7 @@ struct MainProductView: View {
                 .padding(.vertical, 8)
             
             // Product details
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text(product.brand)
                     .font(.title2)
                     .fontWeight(.bold)
@@ -33,6 +33,7 @@ struct MainProductView: View {
                 Text(product.product_name)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                    .padding(.bottom, 8)
                 
                 Text("Rs \(product.price, specifier: "%.0f")")
                     .font(.title3)
