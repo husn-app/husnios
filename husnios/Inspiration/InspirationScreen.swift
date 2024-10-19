@@ -4,34 +4,37 @@ struct InspirationScreen: View {
     let inspirations = sampleInspirations
 
     var body: some View {
-        VStack {
-            TopNavbar()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    ForEach(inspirations) { inspiration in
-                        VStack(alignment: .leading) {
-                            Text(inspiration.category)
-                                .font(.headline)
-                                .padding(.horizontal)
-
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 16) {
-                                    ForEach(inspiration.subInspirations) { subInspiration in
-                                        SubInspirationView(subInspiration: subInspiration)
+        NavigationView {
+            VStack {
+                TopNavbar()
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        ForEach(inspirations) { inspiration in
+                            VStack(alignment: .leading) {
+                                Text(inspiration.category)
+                                    .font(.headline)
+                                    .padding(.horizontal)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 16) {
+                                        ForEach(inspiration.subInspirations) { subInspiration in
+                                            SubInspirationView(subInspiration: subInspiration)
+                                        }
                                     }
+                                    .padding(.horizontal)
                                 }
-                                .padding(.horizontal)
+                                .frame(height: 220)
                             }
-                            .frame(height: 220)
                         }
                     }
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
             }
-        }
-        .overlay(
-            BottomNavbarView()
-        )
+            .overlay(
+                BottomNavbarView(selectedTab: "inspiration")
+            )
+            .edgesIgnoringSafeArea(.bottom)
+        }.navigationBarBackButtonHidden(true)
     }
 }
 

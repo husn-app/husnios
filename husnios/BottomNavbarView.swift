@@ -8,36 +8,38 @@
 import SwiftUI
 
 struct BottomNavbarView: View {
+    let selectedTab: String?
+    
     var body: some View {
-        // Bottom navigation bar
-        VStack {
-            Spacer()
-            Divider()
-            HStack {
+            VStack {
                 Spacer()
-                Button(action: {}) {
-                    Image(systemName: "house.fill")
-                        .font(.title2)
+                Divider()
+                HStack {
+                    Spacer()
+                    NavigationLink(destination: FeedScreen()) {
+                        Image(systemName: selectedTab == "feed" ? "house.fill" : "house")
+                            .font(.title2)
+                    }
+                    Spacer()
+                    NavigationLink(destination: InspirationScreen()) {
+                        Image(systemName: selectedTab == "inspiration" ? "lightbulb.fill" : "lightbulb")
+                            .font(.title2)
+                    }
+                    Spacer()
+                    NavigationLink(destination: InspirationScreen()) {
+                        Image(systemName: selectedTab == "favorites" ? "heart.fill" : "heart")
+                            .font(.title2)
+                    }
+                    Spacer()
                 }
-                Spacer()
-                Button(action: {}) {
-                    Image(systemName: "lightbulb.fill")
-                        .font(.title2)
-                }
-                Spacer()
-                Button(action: {}) {
-                    Image(systemName: "heart")
-                        .font(.title2)
-                }
-                Spacer()
+                .padding(.bottom, 20)
+                .padding(.top, 10)
+                .background(Color(UIColor.systemBackground))
             }
-            .padding(.bottom, 20)
-            .padding(.top, 10)
-            .background(Color(UIColor.systemBackground))
-        }
     }
 }
 
+
 #Preview {
-    BottomNavbarView()
+    BottomNavbarView(selectedTab: "feed")
 }

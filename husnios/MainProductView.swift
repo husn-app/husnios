@@ -13,8 +13,10 @@ struct MainProductView: View {
                     .aspectRatio(3/4, contentMode: .fill)
                     .clipped()
             } placeholder: {
-                Color.gray
-                    .frame(height: 300)
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .aspectRatio(3/4, contentMode: .fill)
+                    .clipped()
             }
             
             // Overlay buttons below the image

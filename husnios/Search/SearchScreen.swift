@@ -27,7 +27,7 @@ struct SearchScreen: View {
             .padding(.bottom, 70) // To prevent content from being hidden behind the bottom bar
         }
         .overlay(
-            BottomNavbarView()
+            BottomNavbarView(selectedTab: "")
         )
         .edgesIgnoringSafeArea(.bottom)
     }
