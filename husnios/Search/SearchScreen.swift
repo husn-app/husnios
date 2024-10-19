@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchView: View {
+struct SearchScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             TopNavbar()
@@ -35,5 +35,5 @@ struct SearchView: View {
 
 
 #Preview {
-    SearchView()
+    SearchScreen()
 }

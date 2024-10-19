@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct InspirationsView: View {
+struct InspirationScreen: View {
     let inspirations: [Inspiration]
 
     var body: some View {
@@ -72,5 +72,5 @@ struct SubInspirationView: View {
 }
 
 #Preview {
-    InspirationsView(inspirations: sampleInspirations)
+    InspirationScreen(inspirations: sampleInspirations)
 }

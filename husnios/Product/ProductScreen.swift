@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ProductScreenView: View {
+struct ProductScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             TopNavbar()
@@ -36,7 +36,7 @@ struct ProductScreenView: View {
 
 
 #Preview {
-    ProductScreenView()
+    ProductScreen()
 }
 
 
