@@ -5,7 +5,7 @@ struct InspirationScreen: View {
 
     var body: some View {
         NavigationView {
-            VStack {
+            VStack (spacing: 0){
                 TopNavbar()
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
