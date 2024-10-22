@@ -9,7 +9,9 @@ let sampleProduct = Product(
     primary_image: "http://assets.myntassets.com/assets/images/13807346/2021/3/23/4c5d5540-931f-4965-bc10-7d08e73cbc7d1616496828268-MIMOSA-Women-Sarees-971616496827362-1.jpg",
     sizes: "Onesize",
     gender: "Women",
-    price: 1319.0
+    price: 1319.0,
+    index : 0,
+    inspiration_subcategory: InspirationSubcategory(name: "category", query: "/search/query")
 )
 
 // Sample data based on your JSON
@@ -26,6 +28,7 @@ let sampleProducts = (0..<100).map { i in
         sizes: sampleProduct.sizes,
         gender: sampleProduct.gender,
         price: sampleProduct.price,
-        index: i
+        index: i,
+        inspiration_subcategory: InspirationSubcategory(name: "category \(i)", query: "/search/query\(i)")
     )
 }

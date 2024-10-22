@@ -1,20 +1,13 @@
-let sampleInspiration = Inspiration(
-    category: "Sample Category",
-    products: Array(repeating: sampleProduct, count: 8)
-)
-
-let sampleInspirations = Array(repeating: sampleInspiration, count: 12)
 
 import Foundation
 import Combine
 
-class InspirationViewModel: ObservableObject {
-    @Published var inspirations: [Inspiration] = []
-    private var cancellables = Set<AnyCancellable>()
+class FeedViewModel: ObservableObject {
+    @Published var products: [Product] = []
     private let server = "https://husn-dev.azurewebsites.net"
     
-    func fetchInspirations() {
-        let url = URL(string: "\(server)/api/inspiration")
+    func fetchFeedProducts() {
+        let url = URL(string: "\(server)/api/feed")
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             DispatchQueue.main.async {
@@ -28,10 +21,11 @@ class InspirationViewModel: ObservableObject {
                         print("No data received")
                         return
                     }
+                    // print(String(data: data, encoding: .utf8))
                     
                     let json = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                    let inspirationsJson = json["inspirations"] as! [[String: Any]]
-                    self.inspirations = inspirationsJson.map { Inspiration(json: $0) }
+                    let productsListJson = json["products"] as! [[String:Any]]
+                    self.products = productsListJson.map { Product(json: $0) }
                 }
             }
         }

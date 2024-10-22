@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct FeedScreen: View {
+    @StateObject private var viewModel = FeedViewModel()
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -10,7 +12,7 @@ struct FeedScreen: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         // Display all products as MainProductView
-                        ForEach(sampleProducts) { product in
+                        ForEach(viewModel.products) { product in
                             MainProductView(product: product)
                                 .frame(maxWidth: .infinity)
                         }
@@ -22,8 +24,12 @@ struct FeedScreen: View {
                 BottomNavbarView(selectedTab: "feed")
             )
             .edgesIgnoringSafeArea(.bottom)
-        }.navigationBarBackButtonHidden(true)
-
+        }
+        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.fetchFeedProducts()
+            // viewModel.products = sampleProducts
+        }
     }
 }
 

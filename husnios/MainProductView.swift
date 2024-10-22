@@ -20,7 +20,7 @@ struct MainProductView: View {
             }
             
             // Overlay buttons below the image
-            MainProductIconTray(productID: product.id, isLiked: $isLiked)
+            MainProductIconTray(productID: product.index, isLiked: $isLiked)
                 .padding(.horizontal)
                 .padding(.vertical, 8)
             

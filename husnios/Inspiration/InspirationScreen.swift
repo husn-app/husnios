@@ -1,30 +1,33 @@
 import SwiftUI
 
 struct InspirationScreen: View {
-    let inspirations = sampleInspirations
-
+    @StateObject private var viewModel = InspirationViewModel()
+    
     var body: some View {
         NavigationView {
             VStack (spacing: 0){
                 TopNavbar()
+                SearchBar(text: .constant(""))
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        ForEach(inspirations) { inspiration in
+                    VStack(alignment: .leading, spacing: 24) {
+                        ForEach($viewModel.inspirations, id: \.id) { $inspiration in
                             VStack(alignment: .leading) {
                                 Text(inspiration.category)
-                                    .font(.headline)
+                                    .font(.system(size: 20))
+                                    .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.horizontal)
+                                    .padding(.bottom, 8)
                                 
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 16) {
-                                        ForEach(inspiration.subInspirations) { subInspiration in
-                                            SubInspirationView(subInspiration: subInspiration)
+                                        ForEach(inspiration.products) { product in
+                                            SubInspirationView(product: product)
                                         }
                                     }
                                     .padding(.horizontal)
                                 }
-                                .frame(height: 220)
                             }
+                            Divider()
                         }
                     }
                     .padding(.vertical)
@@ -34,26 +37,34 @@ struct InspirationScreen: View {
                 BottomNavbarView(selectedTab: "inspiration")
             )
             .edgesIgnoringSafeArea(.bottom)
-        }.navigationBarBackButtonHidden(true)
+        }
+        .navigationBarBackButtonHidden(true)
+        .onAppear {
+            viewModel.fetchInspirations()
+            // viewModel.inspirations = sampleInspirations
+        }
     }
 }
 
 struct SubInspirationView: View {
-    let subInspiration: SubInspiration
-
+    let product: Product
+    
     var body: some View {
         VStack {
             // Assuming `primary_image` is a URL string
-            if let url = URL(string: subInspiration.product.primary_image) {
+            if let url = URL(string: product.primary_image) {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()
+                        .frame(width: 280, height: 372)
                         .aspectRatio(contentMode: .fill)
                 } placeholder: {
                     // TODO : Replace with progress views until the output is returned!
-                     ProgressView()
+                    ProgressView()
+                        .frame(width: 280, height: 372)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(8)
                 }
-                .aspectRatio(3/4, contentMode:.fill)
                 .clipped()
                 .cornerRadius(8)
             } else {
@@ -61,16 +72,16 @@ struct SubInspirationView: View {
                 Image(systemName: "photo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 150, height: 150)
+                    .frame(width: 280, height: 372)
                     .foregroundColor(.gray)
             }
-
-            Text(subInspiration.name)
+            
+            Text(product.inspiration_subcategory.name)
                 .font(.subheadline)
                 .lineLimit(1)
                 .padding(.top, 5)
         }
-        .frame(width: 150)
+        .frame(width: 280)
     }
 }
 

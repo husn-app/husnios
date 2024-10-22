@@ -1,5 +1,23 @@
 import SwiftUI
 
+struct InspirationSubcategory: Identifiable {
+    let id: UUID
+    let name: String
+    let query: String
+    
+    init(id: UUID = UUID(), name: String = "", query: String = "") {
+        self.id = id
+        self.name = name
+        self.query = query
+    }
+    
+    init(json: [String: Any]) {
+        self.id = UUID()
+        self.name = json["name"] as? String ?? ""
+        self.query = json["query"] as? String ?? ""
+    }
+}
+
 // Define the Product model
 struct Product: Identifiable {
     let id: Int
@@ -15,7 +33,8 @@ struct Product: Identifiable {
     let gender: String
     let price: Double
     let index: Int
-
+    let inspiration_subcategory: InspirationSubcategory
+    
     init(
         original_website: String = "",
         product_url: String = "",
@@ -28,7 +47,8 @@ struct Product: Identifiable {
         sizes: String = "",
         gender: String = "",
         price: Double = 0.0,
-        index: Int = 0
+        index: Int = 0,
+        inspiration_subcategory: InspirationSubcategory = InspirationSubcategory()
     ) {
         self.id = index
         self.original_website = original_website
@@ -43,40 +63,49 @@ struct Product: Identifiable {
         self.gender = gender
         self.price = price
         self.index = index
+        self.inspiration_subcategory = inspiration_subcategory
     }
-}
-
-struct SubInspiration: Identifiable {
-    let id: UUID
-    let name: String
-    let query: String
-    let product: Product
-
-    init(
-        id: UUID = UUID(),
-        name: String = "",
-        query: String = "",
-        product: Product = Product()
-    ) {
-        self.id = id
-        self.name = name
-        self.query = query
-        self.product = product
+    
+    init(json: [String: Any]) {
+        self.id = json["index"] as? Int ?? 0
+        self.original_website = json["original_website"] as? String ?? ""
+        self.product_url = json["product_url"] as? String ?? ""
+        self.product_id = json["product_id"] as? Int ?? 0
+        self.product_name = json["product_name"] as? String ?? ""
+        self.rating = json["rating"] as? Double ?? 0.0
+        self.rating_count = json["rating_count"] as? Int ?? 0
+        self.brand = json["brand"] as? String ?? ""
+        self.primary_image = json["primary_image"] as? String ?? ""
+        self.sizes = json["sizes"] as? String ?? ""
+        self.gender = json["gender"] as? String ?? ""
+        self.price = json["price"] as? Double ?? 0.0
+        self.index = json["index"] as? Int ?? 0
+        if let subcategoryJson = json["inspiration_subcategory"] as? [String: Any] {
+            self.inspiration_subcategory = InspirationSubcategory(json: subcategoryJson)
+        } else {
+            self.inspiration_subcategory = InspirationSubcategory()
+        }
     }
 }
 
 struct Inspiration: Identifiable {
-    let id: UUID
+    let id: String
     let category: String
-    let subInspirations: [SubInspiration]
-
-    init(
-        id: UUID = UUID(),
-        category: String = "",
-        subInspirations: [SubInspiration] = []
-    ) {
-        self.id = id
+    let products: [Product]
+    
+    init(category: String = "", products: [Product] = []) {
+        self.id = category
         self.category = category
-        self.subInspirations = subInspirations
+        self.products = products
+    }
+    
+    init(json: [String: Any]) {
+        self.id = json["category"] as? String ?? ""
+        self.category = json["category"] as? String ?? ""
+        if let productsJson = json["products"] as? [[String: Any]] {
+            self.products = productsJson.map { Product(json: $0) }
+        } else {
+            self.products = []
+        }
     }
 }
