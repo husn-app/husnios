@@ -20,7 +20,7 @@ struct InspirationSubcategory: Identifiable {
 
 // Define the Product model
 struct Product: Identifiable {
-    let id: Int
+    let id: UUID = UUID()
     let original_website: String
     let product_url: String
     let product_id: Int
@@ -50,7 +50,6 @@ struct Product: Identifiable {
         index: Int = 0,
         inspiration_subcategory: InspirationSubcategory = InspirationSubcategory()
     ) {
-        self.id = index
         self.original_website = original_website
         self.product_url = product_url
         self.product_id = product_id
@@ -67,7 +66,6 @@ struct Product: Identifiable {
     }
     
     init(json: [String: Any]) {
-        self.id = json["index"] as? Int ?? 0
         self.original_website = json["original_website"] as? String ?? ""
         self.product_url = json["product_url"] as? String ?? ""
         self.product_id = json["product_id"] as? Int ?? 0
