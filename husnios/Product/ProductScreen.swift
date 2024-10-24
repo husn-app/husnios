@@ -6,8 +6,6 @@ struct ProductScreen: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            TopNavbar()
-            
             ScrollView {
                 VStack(spacing: 0) {
                     SearchBar(text: .constant(""))

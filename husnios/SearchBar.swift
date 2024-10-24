@@ -7,48 +7,38 @@ struct SearchBar: View {
     
     var body: some View {
         HStack {
-            TextField("Search", text: $text)
-                .padding(10)
-                .padding(.horizontal, 25)
-                .background(Color(UIColor.systemGray5))
-                .cornerRadius(10)
-                .overlay(
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray)
-                            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading, 8)
-                        
-                        if isEditing && !text.isEmpty {
-                            Button(action: {
-                                self.text = ""
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
-                                    .padding(.trailing, 8)
-                            }
-                        }
-                    }
-                )
-                .onTapGesture {
-                    self.isEditing = true
-                }
-            
-            if isEditing {
-                Button(action: {
-                    self.isEditing = false
-                    self.text = ""
+            TextField("Search", text: $text, onEditingChanged: { isEditing in
+                self.isEditing = isEditing
+            })
+            .padding(10)
+            .padding(.horizontal, 25)
+            .background(Color(UIColor.systemGray5))
+            .cornerRadius(10)
+            .overlay(
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 8)
                     
-                    // Dismiss the keyboard
+                }
+            )
+            .submitLabel(.search)  // Change the return key to display "Search"
+            if self.isEditing {
+                Button(action: {
+                    self.text = ""
+                    self.isEditing = false
+                    
+                    // Dismiss keyboard.
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }) {
-                    Text("Cancel")
-                        .foregroundColor(.blue)
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.gray)
+                        .padding(.trailing, 8)
                 }
                 .transition(.move(edge: .trailing))
             }
         }
-        .animation(.default, value: isEditing)
         .padding(.horizontal)
     }
 }

@@ -21,7 +21,9 @@ struct InspirationScreen: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 16) {
                                         ForEach(inspiration.products) { product in
-                                            SubInspirationView(product: product)
+                                            NavigationLink(destination: SearchScreen(query: product.inspiration_subcategory.query)) {
+                                                SubInspirationView(product: product)
+                                            }
                                         }
                                     }
                                     .padding(.horizontal)

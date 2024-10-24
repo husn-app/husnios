@@ -8,17 +8,18 @@
 import SwiftUI
 
 struct SearchScreen: View {
+    @StateObject private var viewModel = SearchViewModel()
+    var query : String = ""
+    
     var body: some View {
         VStack(spacing: 0) {
-            TopNavbar()
-            
             // Search bar
-            SearchBar(text: .constant(""))
+            SearchBar(text: .constant(query))
             
             // Feed of search results
             ScrollView {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(sampleProducts) { product in
+                    ForEach(viewModel.products) { product in
                         SecondaryProductView(product: product)
                     }
                 }
@@ -30,6 +31,9 @@ struct SearchScreen: View {
             BottomNavbarView(selectedTab: "")
         )
         .edgesIgnoringSafeArea(.bottom)
+        .onAppear {
+            viewModel.fetchProductDetails(query: query)
+        }
     }
 }
 
