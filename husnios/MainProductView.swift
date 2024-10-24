@@ -31,7 +31,7 @@ struct MainProductView: View {
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
                     .lineLimit(2)
-
+                
                 Text(product.product_name)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
@@ -42,7 +42,7 @@ struct MainProductView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(.green)
                 
-                // TODO: Replace with product.rating_count > 0 post-testing. 
+                // TODO: Replace with product.rating_count > 0 post-testing.
                 if product.rating_count > 0 {
                     HStack(spacing: 4) {
                         ForEach(0..<5) { index in

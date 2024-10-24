@@ -13,8 +13,10 @@ struct FeedScreen: View {
                     VStack(spacing: 0) {
                         // Display all products as MainProductView
                         ForEach(viewModel.products) { product in
-                            MainProductView(product: product)
-                                .frame(maxWidth: .infinity)
+                            NavigationLink(destination: ProductScreen(product_id: product.index)) {
+                                MainProductView(product: product)
+                                    .frame(maxWidth: .infinity)
+                            }
                         }
                     }
                     .padding(.bottom, 70) // To prevent content from being hidden behind the bottom bar

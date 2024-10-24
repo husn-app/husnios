@@ -1,22 +1,24 @@
 import SwiftUI
 
 struct ProductScreen: View {
+    let product_id: Int
+    @StateObject private var viewModel = ProductViewModel()
+    
     var body: some View {
         VStack(spacing: 0) {
             TopNavbar()
-            SearchBar(text: .constant(""))
             
             ScrollView {
                 VStack(spacing: 0) {
+                    SearchBar(text: .constant(""))
+                    
                     // Main product occupying full width
-                    if let mainProduct = sampleProducts.first {
-                        MainProductView(product: mainProduct)
-                            .frame(maxWidth: .infinity)
-                    }
+                    MainProductView(product: viewModel.product)
+                        .frame(maxWidth: .infinity)
                     
                     // Feed of secondary search results
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                        ForEach(sampleProducts.dropFirst()) { product in
+                        ForEach(viewModel.similarProducts) { product in
                             SecondaryProductView(product: product)
                         }
                     }
@@ -29,14 +31,12 @@ struct ProductScreen: View {
             )
             .edgesIgnoringSafeArea(.bottom)
         }
+        .onAppear {
+            viewModel.fetchProductDetails(product_id: product_id)
+        }
     }
 }
 
-
-
-
 #Preview {
-    ProductScreen()
+    ProductScreen(product_id: 123)
 }
-
-
