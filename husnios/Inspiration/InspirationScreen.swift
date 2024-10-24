@@ -18,9 +18,7 @@ struct InspirationScreen: View {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 16) {
                                     ForEach(inspiration.products) { product in
-                                        NavigationLink(destination: SearchScreen(query: product.inspiration_subcategory.query)) {
-                                            SubInspirationView(product: product)
-                                        }
+                                        SubInspirationView(product: product)
                                     }
                                 }
                                 .padding(.horizontal)
@@ -46,20 +44,22 @@ struct SubInspirationView: View {
         VStack {
             // Assuming `primary_image` is a URL string
             if let url = URL(string: product.primary_image) {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .frame(width: 280, height: 372)
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    // TODO : Replace with progress views until the output is returned!
-                    ProgressView()
-                        .frame(width: 280, height: 372)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(8)
+                NavigationLink(destination: SearchScreen(query: product.inspiration_subcategory.query)) {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .frame(width: 280, height: 372)
+                            .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        // TODO : Replace with progress views until the output is returned!
+                        ProgressView()
+                            .frame(width: 280, height: 372)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(8)
+                    }
+                    .clipped()
+                    .cornerRadius(8)
                 }
-                .clipped()
-                .cornerRadius(8)
             } else {
                 // Placeholder for invalid URL
                 Image(systemName: "photo")

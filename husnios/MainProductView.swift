@@ -21,8 +21,8 @@ struct MainProductView: View {
             
             // Overlay buttons below the image
             MainProductIconTray(productID: product.index, isLiked: $isLiked)
-                .padding(.horizontal)
-                .padding(.vertical, 8)
+                .padding(.horizontal, 0)
+                .padding(.vertical, 4)
             
             // Product details
             VStack(alignment: .leading, spacing: 0) {
@@ -30,13 +30,13 @@ struct MainProductView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
-                    .lineLimit(2)
+                    .lineLimit(1)
                 
-                Text(product.product_name)
+                Text(product.product_name.replacingOccurrences(of: product.brand, with: "").trimmingCharacters(in: .whitespacesAndNewlines))
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .padding(.bottom, 8)
-                
+                    .lineLimit(1)
                 Text("Rs \(product.price, specifier: "%.0f")")
                     .font(.title3)
                     .fontWeight(.semibold)
@@ -56,13 +56,11 @@ struct MainProductView: View {
                     }
                 }
             }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
+            .padding(.horizontal, 0)
         }
         .background(Color(.systemBackground))
-        .cornerRadius(15)
-        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 5)
-        .padding()
+        .padding(.horizontal, 0)
+        .padding(.vertical, 16)
     }
 }
 
@@ -72,32 +70,38 @@ struct MainProductIconTray: View {
     
     var body: some View {
         HStack(spacing: 20) {
-            Button(action: {
-                isLiked.toggle()
-                toggleWishlist()
-            }) {
-                Image(systemName: isLiked ? "heart.fill" : "heart")
-                    .foregroundColor(isLiked ? .red : .gray)
-                    .background(Color.white.opacity(0.7))
-                    .clipShape(Circle())
+            VStack {
+                Spacer()
+                Button(action: {
+                    isLiked.toggle()
+                    toggleWishlist()
+                }) {
+                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                        .font(.title)
+                        .foregroundColor(isLiked ? .red : .gray)
+                }
             }
             
-            Button(action: {
-                // Share action
-            }) {
-                Image(systemName: "square.and.arrow.up")
-                    .foregroundColor(.primary)
-                    .background(Color.white.opacity(0.7))
-                    .clipShape(Circle())
+            VStack {
+                Spacer()
+                Button(action: {
+                    // Share action
+                }) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                }
             }
             
-            Button(action: {
-                // M icon action
-            }) {
-                Image(systemName: "m.circle.fill")
-                    .foregroundColor(.blue)
-                    .background(Color.white.opacity(0.7))
-                    .clipShape(Circle())
+            VStack {
+                Spacer()
+                Button(action: {
+                    // M icon action
+                }) {
+                    Image(systemName: "m.circle.fill")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                }
             }
         }
     }

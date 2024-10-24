@@ -21,6 +21,8 @@ struct TopNavbar: View {
                 .frame(width: 40, height: 40)
                 .foregroundColor(.gray)
         }
-        .padding()
+        .padding(.top, 0)
+        .padding(.horizontal)
+        .padding(.bottom, 8)
     }
 }

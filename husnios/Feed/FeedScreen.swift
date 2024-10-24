@@ -13,6 +13,7 @@ struct FeedScreen: View {
                             MainProductView(product: product)
                                 .frame(maxWidth: .infinity)
                         }
+                        Divider()
                     }
                 }
                 .padding(.bottom, 70) // To prevent content from being hidden behind the bottom bar
