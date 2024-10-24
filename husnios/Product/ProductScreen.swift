@@ -3,12 +3,14 @@ import SwiftUI
 struct ProductScreen: View {
     let product_id: Int
     @StateObject private var viewModel = ProductViewModel()
+    @State private var isSearchCommited = false
+    @State private var searchQuery = ""
     
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(spacing: 0) {
-                    SearchBar(text: .constant(""), isSearchCommited: .constant(false))
+                    SearchBar(text: $searchQuery, isSearchCommited: $isSearchCommited)
                     
                     // Main product occupying full width
                     MainProductView(product: viewModel.product)
@@ -32,6 +34,11 @@ struct ProductScreen: View {
         .onAppear {
             viewModel.fetchProductDetails(product_id: product_id)
         }
+        .background(
+            NavigationLink(destination: SearchScreen(query: searchQuery), isActive: $isSearchCommited) {
+                EmptyView()
+            }
+        )
     }
 }
 

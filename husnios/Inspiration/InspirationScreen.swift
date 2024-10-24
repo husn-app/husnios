@@ -4,43 +4,34 @@ struct InspirationScreen: View {
     @StateObject private var viewModel = InspirationViewModel()
     
     var body: some View {
-        NavigationView {
-            VStack (spacing: 0){
-                TopNavbar()
-                SearchBar(text: .constant(""), isSearchCommited: .constant(false))
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
-                        ForEach($viewModel.inspirations, id: \.id) { $inspiration in
-                            VStack(alignment: .leading) {
-                                Text(inspiration.category)
-                                    .font(.system(size: 20))
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                    .padding(.horizontal)
-                                    .padding(.bottom, 8)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 16) {
-                                        ForEach(inspiration.products) { product in
-                                            NavigationLink(destination: SearchScreen(query: product.inspiration_subcategory.query)) {
-                                                SubInspirationView(product: product)
-                                            }
+        VStack (spacing: 0){
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    ForEach($viewModel.inspirations, id: \.id) { $inspiration in
+                        VStack(alignment: .leading) {
+                            Text(inspiration.category)
+                                .font(.system(size: 20))
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.horizontal)
+                                .padding(.bottom, 8)
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 16) {
+                                    ForEach(inspiration.products) { product in
+                                        NavigationLink(destination: SearchScreen(query: product.inspiration_subcategory.query)) {
+                                            SubInspirationView(product: product)
                                         }
                                     }
-                                    .padding(.horizontal)
                                 }
+                                .padding(.horizontal)
                             }
-                            Divider()
                         }
+                        Divider()
                     }
-                    .padding(.vertical)
                 }
+                .padding(.vertical)
             }
-            .overlay(
-                BottomNavbarView(selectedTab: "inspiration")
-            )
-            .edgesIgnoringSafeArea(.bottom)
         }
-        .navigationBarBackButtonHidden(true)
         .onAppear {
             viewModel.fetchInspirations()
             // viewModel.inspirations = sampleInspirations
