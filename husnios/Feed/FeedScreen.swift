@@ -2,12 +2,14 @@ import SwiftUI
 
 struct FeedScreen: View {
     @StateObject private var viewModel = FeedViewModel()
-    
+    @State private var isSearchCommited = false
+    @State private var searchQuery = ""
+
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
                 TopNavbar()
-                SearchBar(text: .constant(""))
+                SearchBar(text: $searchQuery, isSearchCommited: $isSearchCommited)
                 
                 ScrollView {
                     VStack(spacing: 0) {
@@ -26,6 +28,11 @@ struct FeedScreen: View {
                 BottomNavbarView(selectedTab: "feed")
             )
             .edgesIgnoringSafeArea(.bottom)
+            .background(
+                NavigationLink(destination: SearchScreen(query: String(searchQuery)), isActive:$isSearchCommited) {
+                    EmptyView()
+                }
+            )
         }
         .navigationBarBackButtonHidden(true)
         .onAppear {

@@ -4,11 +4,13 @@ import SwiftUI
 struct SearchBar: View {
     @Binding var text: String
     @State private var isEditing = false
-    
+    @Binding var isSearchCommited: Bool
     var body: some View {
         HStack {
             TextField("Search", text: $text, onEditingChanged: { isEditing in
                 self.isEditing = isEditing
+            }, onCommit : {
+                self.isSearchCommited = true
             })
             .padding(10)
             .padding(.horizontal, 25)

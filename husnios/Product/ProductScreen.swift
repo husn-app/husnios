@@ -8,7 +8,7 @@ struct ProductScreen: View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(spacing: 0) {
-                    SearchBar(text: .constant(""))
+                    SearchBar(text: .constant(""), isSearchCommited: .constant(false))
                     
                     // Main product occupying full width
                     MainProductView(product: viewModel.product)

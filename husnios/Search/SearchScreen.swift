@@ -1,20 +1,14 @@
-//
-//  SearchView.swift
-//  husnios
-//
-//  Created by Prashant Shishodia on 18/10/24.
-//
-
 import SwiftUI
 
 struct SearchScreen: View {
     @StateObject private var viewModel = SearchViewModel()
-    var query : String = ""
+    @State var query: String
+    @State private var isSearchCommited: Bool = false
     
     var body: some View {
         VStack(spacing: 0) {
             // Search bar
-            SearchBar(text: .constant(query))
+            SearchBar(text: $query, isSearchCommited: $isSearchCommited)
             
             // Feed of search results
             ScrollView {
@@ -34,10 +28,16 @@ struct SearchScreen: View {
         .onAppear {
             viewModel.fetchProductDetails(query: query)
         }
+        .onChange(of: isSearchCommited) { newValue in
+            if newValue {
+                self.isSearchCommited = false
+                viewModel.fetchProductDetails(query: query)
+            }
+        }
     }
 }
 
 
 #Preview {
-    SearchScreen()
+    SearchScreen(query : "hello")
 }

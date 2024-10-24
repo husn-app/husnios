@@ -7,7 +7,7 @@ struct InspirationScreen: View {
         NavigationView {
             VStack (spacing: 0){
                 TopNavbar()
-                SearchBar(text: .constant(""))
+                SearchBar(text: .constant(""), isSearchCommited: .constant(false))
                 ScrollView {
                     VStack(alignment: .leading, spacing: 24) {
                         ForEach($viewModel.inspirations, id: \.id) { $inspiration in
