@@ -5,7 +5,7 @@ struct SecondaryProductView: View {
     
     var body: some View {
         NavigationLink(destination: ProductScreen(product_id: product.index)) {
-            VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading, spacing: 0) {
                 // Product image
                 AsyncImage(url: URL(string: product.primary_image)) { image in
                     image
@@ -19,6 +19,7 @@ struct SecondaryProductView: View {
                         .aspectRatio(3/4, contentMode: .fill)
                 }
                 .cornerRadius(10)
+                .padding(.vertical, 4)
                 
                 // Brand name
                 Text(product.brand)
@@ -26,12 +27,13 @@ struct SecondaryProductView: View {
                     .foregroundColor(.primary)
                     .lineLimit(1)
                 
-                // Product name
-                Text(product.product_name)
+                // Product name after removing brand name.
+                Text(product.product_name.replacingOccurrences(of: product.brand, with: "").trimmingCharacters(in: .whitespacesAndNewlines))
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-                    .lineLimit(2)
+                    .lineLimit(1)
             }
+            .padding(.vertical, 4)
         }
     }
 }

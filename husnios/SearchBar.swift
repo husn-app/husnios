@@ -12,8 +12,8 @@ struct SearchBar: View {
             }, onCommit : {
                 self.isSearchCommited = true
             })
-            .padding(10)
-            .padding(.horizontal, 25)
+            .padding(8) // padding inside the search bar.
+            .padding(.horizontal, 24)
             .background(Color(UIColor.systemGray5))
             .cornerRadius(10)
             .overlay(
@@ -41,6 +41,7 @@ struct SearchBar: View {
                 .transition(.move(edge: .trailing))
             }
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 4)
+        .padding(.vertical, 4)
     }
 }
