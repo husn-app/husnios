@@ -11,17 +11,33 @@ struct MainProductView: View {
                 BrandIconAndName(product:product).padding(.bottom, 4)
             }
             
-            // Product Image
-            AsyncImage(url: URL(string: product.primary_image)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(3/4, contentMode: .fill)
-                    .clipped()
-            } placeholder: {
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .aspectRatio(3/4, contentMode: .fill)
-                    .clipped()
+            // Product Image with rating overlay
+            ZStack(alignment: .bottomTrailing) {
+                AsyncImage(url: URL(string: product.primary_image)) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(3/4, contentMode: .fill)
+                        .clipped()
+                } placeholder: {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .aspectRatio(3/4, contentMode: .fill)
+                        .clipped()
+                }
+                
+                if product.rating_count > 0 {
+                    HStack(spacing: 4) {
+                        RatingView(rating:product.rating, maxRating: 5)
+                        Text("(\(product.rating_count))") // Number of reviews
+                            .font(.footnote)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(4)
+                    .background(Color(UIColor.systemGray).opacity(0.6))
+                    .cornerRadius(8)
+                    .padding([.bottom, .trailing], 8)
+                }
             }
             
             // Overlay buttons below the image
@@ -44,30 +60,39 @@ struct MainProductView: View {
                     .foregroundColor(.secondary)
                     .padding(.bottom, 8)
                     .lineLimit(1)
-                Text("Rs \(product.price, specifier: "%.0f")")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.green)
-                
-                // TODO: Replace with product.rating_count > 0 post-testing.
-                if product.rating_count > 0 {
-                    HStack(spacing: 4) {
-                        ForEach(0..<5) { index in
-                            Image(systemName: index < Int(product.rating.rounded()) ? "star.fill" : "star")
-                                .foregroundColor(.yellow)
-                                .font(.subheadline)
-                        }
-                        Text("(\(product.rating_count))") // Number of reviews
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                    }
-                }
             }
             .padding(.horizontal, 0)
         }
         .background(Color(.systemBackground))
         .padding(.horizontal, 0)
         .padding(.vertical, 16)
+    }
+}
+
+struct RatingView: View {
+    var rating: CGFloat
+    var maxRating: Int
+
+    var body: some View {
+        let stars = HStack(spacing: 0) {
+            ForEach(0..<maxRating, id: \.self) { _ in
+                Image(systemName: "star.fill")
+            }
+        }
+
+        stars.overlay(
+            GeometryReader { g in
+                let width = rating / CGFloat(maxRating) * g.size.width
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .frame(width: width)
+                        .foregroundColor(.primary)
+                }
+            }
+            .mask(stars)
+        )
+        .foregroundColor(Color(.systemGray))
+        .font(.caption)
     }
 }
 
