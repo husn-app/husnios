@@ -18,12 +18,11 @@ struct MainScreen: View {
                 SearchBar(text: $searchQuery, isSearchCommited: $isSearchCommited)
                 
                 TabView(selection: $selectedTab) {
-                    FeedScreen()
-                        .tabItem {
-                            Image(systemName: "house")
-                            Text("Home")
-                        }
-                        .tag(Tab.Home)
+                    FeedScreen()                        .tabItem {
+                        Image(systemName: "house")
+                        Text("Home")
+                    }
+                    .tag(Tab.Home)
                     
                     InspirationScreen()
                         .tabItem {
@@ -39,6 +38,7 @@ struct MainScreen: View {
                         }
                         .tag(Tab.Wishlist)
                 }
+                .accentColor(.primary)
             }
             .background(
                 NavigationLink(destination: SearchScreen(query: searchQuery), isActive: $isSearchCommited) {

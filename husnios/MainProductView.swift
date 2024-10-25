@@ -41,8 +41,8 @@ struct MainProductView: View {
             }
             
             // Overlay buttons below the image
-            MainProductIconTray(productID: product.index, isLiked: $isLiked)
-                .padding(.horizontal, 0)
+            MainProductIconTray(product: product)
+                .padding(.horizontal, 4)
                 .padding(.vertical, 4)
             
             // Product details
@@ -61,7 +61,7 @@ struct MainProductView: View {
                     .padding(.bottom, 8)
                     .lineLimit(1)
             }
-            .padding(.horizontal, 0)
+            .padding(.horizontal, 4)
         }
         .background(Color(.systemBackground))
         .padding(.horizontal, 0)
@@ -72,14 +72,14 @@ struct MainProductView: View {
 struct RatingView: View {
     var rating: CGFloat
     var maxRating: Int
-
+    
     var body: some View {
         let stars = HStack(spacing: 0) {
             ForEach(0..<maxRating, id: \.self) { _ in
                 Image(systemName: "star.fill")
             }
         }
-
+        
         stars.overlay(
             GeometryReader { g in
                 let width = rating / CGFloat(maxRating) * g.size.width
@@ -89,7 +89,7 @@ struct RatingView: View {
                         .foregroundColor(.primary)
                 }
             }
-            .mask(stars)
+                .mask(stars)
         )
         .foregroundColor(Color(.systemGray))
         .font(.caption)
@@ -131,8 +131,9 @@ struct BrandIconAndName: View {
 }
 
 struct MainProductIconTray: View {
-    var productID: Int
-    @Binding var isLiked: Bool
+    var product: Product
+    // TODO: Replace with is_wishlisted.
+    @State var isLiked: Bool = false
     
     var body: some View {
         HStack(spacing: 20) {
@@ -168,6 +169,14 @@ struct MainProductIconTray: View {
                         .font(.title)
                         .foregroundColor(.gray)
                 }
+            }
+            Spacer()
+            VStack {
+                Spacer()
+                Text("Rs \(product.price, specifier: "%.0f")")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
             }
         }
     }
