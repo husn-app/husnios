@@ -2,10 +2,15 @@ import SwiftUI
 
 struct MainProductView: View {
     var product: Product
+    var is_embedded_in_feed : Bool = false
     @State private var isLiked: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            if (is_embedded_in_feed) {
+                BrandIconAndName(product:product).padding(.bottom, 4)
+            }
+            
             // Product Image
             AsyncImage(url: URL(string: product.primary_image)) { image in
                 image
@@ -26,11 +31,13 @@ struct MainProductView: View {
             
             // Product details
             VStack(alignment: .leading, spacing: 0) {
-                Text(product.brand)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                    .lineLimit(1)
+                if (!is_embedded_in_feed) {
+                    Text(product.brand)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                        .lineLimit(1)
+                }
                 
                 Text(product.product_name.replacingOccurrences(of: product.brand, with: "").trimmingCharacters(in: .whitespacesAndNewlines))
                     .font(.subheadline)
@@ -61,6 +68,40 @@ struct MainProductView: View {
         .background(Color(.systemBackground))
         .padding(.horizontal, 0)
         .padding(.vertical, 16)
+    }
+}
+
+struct BrandIconAndName: View {
+    let product: Product
+    var body: some View {
+        HStack {
+            if let brandIconURL = URL(string: product.brandIcon), !product.brandIcon.isEmpty {
+                AsyncImage(url: brandIconURL) { image in
+                    image
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .clipShape(Circle())
+                } placeholder: {
+                    Circle()
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(width: 24, height: 24)
+                }
+            } else {
+                Circle()
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: 24, height: 24)
+                    .overlay(
+                        Text(String(product.brand.prefix(1)))
+                            .font(.headline)
+                            .foregroundColor(.white)
+                    )
+            }
+            Text("\(product.brand.lowercased().replacingOccurrences(of: "[^a-z0-9]+", with: ".", options: .regularExpression))")
+                .font(.headline)
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
+                .lineLimit(1)
+        }
     }
 }
 

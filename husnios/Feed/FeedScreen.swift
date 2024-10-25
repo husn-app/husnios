@@ -10,7 +10,7 @@ struct FeedScreen: View {
                     // Display all products as MainProductView
                     ForEach(viewModel.products) { product in
                         NavigationLink(destination: ProductScreen(product_id: product.index)) {
-                            MainProductView(product: product)
+                            MainProductView(product: product, is_embedded_in_feed: true)
                                 .frame(maxWidth: .infinity)
                         }
                         Divider()

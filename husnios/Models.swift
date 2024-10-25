@@ -28,6 +28,7 @@ struct Product: Identifiable {
     let rating: Double
     let rating_count: Int
     let brand: String
+    let brandIcon: String
     let primary_image: String
     let sizes: String
     let gender: String
@@ -43,6 +44,7 @@ struct Product: Identifiable {
         rating: Double = 0.0,
         rating_count: Int = 0,
         brand: String = "",
+        brandIcon: String = "",
         primary_image: String = "",
         sizes: String = "",
         gender: String = "",
@@ -57,6 +59,7 @@ struct Product: Identifiable {
         self.rating = rating
         self.rating_count = rating_count
         self.brand = brand
+        self.brandIcon = brandIcon
         self.primary_image = primary_image
         self.sizes = sizes
         self.gender = gender
@@ -73,6 +76,7 @@ struct Product: Identifiable {
         self.rating = json["rating"] as? Double ?? 0.0
         self.rating_count = json["rating_count"] as? Int ?? 0
         self.brand = json["brand"] as? String ?? ""
+        self.brandIcon = json["brand_icon"] as? String ?? ""
         self.primary_image = json["primary_image"] as? String ?? ""
         self.sizes = json["sizes"] as? String ?? ""
         self.gender = json["gender"] as? String ?? ""
