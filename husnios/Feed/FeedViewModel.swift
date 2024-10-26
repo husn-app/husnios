@@ -4,10 +4,8 @@ import Combine
 
 class FeedViewModel: ObservableObject {
     @Published var products: [Product] = []
-    private let server = "https://husn-dev.azurewebsites.net"
-    
     func fetchFeedProducts() {
-        let url = URL(string: "\(server)/api/feed")
+        let url = URL(string: "\(Config.HUSN_SERVER_URL)/api/feed")
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             DispatchQueue.main.async {
