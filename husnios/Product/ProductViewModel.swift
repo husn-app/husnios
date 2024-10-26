@@ -4,9 +4,9 @@ import Combine
 class ProductViewModel: ObservableObject {
     @Published var product: Product = Product()
     @Published var similarProducts: [Product] = []
-    private let server = "http://127.0.0.1:5000"
+
     func fetchProductDetails(product_id: Int) {
-        let url = URL(string: "\(server)/api/product/\(product_id)")
+        let url = URL(string: "\(Config.HUSN_SERVER_URL)/api/product/\(product_id)")
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

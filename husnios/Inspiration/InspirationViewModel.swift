@@ -11,10 +11,9 @@ import Combine
 class InspirationViewModel: ObservableObject {
     @Published var inspirations: [Inspiration] = []
     private var cancellables = Set<AnyCancellable>()
-    private let server = "https://husn-dev.azurewebsites.net"
     
     func fetchInspirations() {
-        let url = URL(string: "\(server)/api/inspiration")
+        let url = URL(string: "\(Config.HUSN_SERVER_URL)/api/inspiration")
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             DispatchQueue.main.async {

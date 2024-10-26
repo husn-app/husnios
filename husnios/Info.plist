@@ -7,5 +7,23 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+
+
+	<key>GIDClientID</key>
+	<string>112535548305-5j4a2md5713r4bdib6v04a8p4s09gnmk.apps.googleusercontent.com</string>
+
+	<key>CFBundleURLTypes</key>
+	<array>
+	  <dict>
+	    <key>CFBundleURLSchemes</key>
+	    <array>
+	      <string>com.googleusercontent.apps.112535548305-5j4a2md5713r4bdib6v04a8p4s09gnmk</string>
+	    </array>
+	  </dict>
+	</array>
+
+	<key>GIDServerClientID</key>
+	<string>112535548305-5j4a2md5713r4bdib6v04a8p4s09gnmk.apps.googleusercontent.com</string>
+
 </dict>
 </plist>
