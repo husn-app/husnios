@@ -1,10 +1,9 @@
 import SwiftUI
 
-struct SecondaryProductView: View {
+struct SecondaryProductWithoutNavigationView: View {
     let product: Product
     
     var body: some View {
-        NavigationLink(destination: ProductScreen(product_id: product.index)) {
             VStack(alignment: .leading, spacing: 0) {
                 // Product image
                 AsyncImage(url: URL(string: product.primary_image)) { image in
@@ -34,6 +33,15 @@ struct SecondaryProductView: View {
                     .lineLimit(1)
             }
             .padding(.vertical, 4)
+    }
+}
+
+struct SecondaryProductView: View {
+    let product: Product
+    
+    var body: some View {
+        NavigationLink(destination: ProductScreen(product_id: product.index)) {
+            SecondaryProductWithoutNavigationView(product: product)
         }
     }
 }

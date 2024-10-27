@@ -12,14 +12,15 @@ struct SearchScreen: View {
             
             // Feed of search results
             if (viewModel.products.isEmpty) {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(sampleProducts4) { product in
-                        SecondaryProductView(product: product)
-                            .foregroundColor(.primary) // Ensure default color for placeholders
+                ScrollView {
+                    
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                        ForEach(sampleProducts6) { product in
+                            SecondaryProductWithoutNavigationView(product: product)
+                        }
                     }
                 }
                 .redacted(reason: .placeholder)
-                .padding()
             } else {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
