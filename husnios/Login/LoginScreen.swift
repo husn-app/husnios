@@ -9,22 +9,34 @@ import SwiftUI
 struct LoginScreen: View {
     @Binding var appState: AppState
     @Environment(\.colorScheme) var colorScheme
-
+    
     var body: some View {
-
         VStack {
+            Text("Husn")
+                .font(.custom("Zapfino", size: 72))
+                .foregroundColor(.primary)
+                .padding(.vertical, 0)
+            //                .padding(.bottom, 50)
+            
+            
             GoogleSignInButton(
                 scheme:(colorScheme == ColorScheme.dark ? .dark : .light),
                 style : .wide,
                 action: {
-                handleSignInButton { success in
-                    if success {
-                        appState = .Onboarding
+                    handleSignInButton { success in
+                        if success {
+                            appState = .Onboarding
+                        }
                     }
-                }
-            })
-        }.background(Color(.systemBackground))
-            .frame(width: 200)
+                }).frame(width: 240, height: 0)
+            Spacer()
+            
+        }.background(
+            Image(colorScheme == ColorScheme.dark ? "dark-background" : "light-background")
+                .resizable()
+                .frame(width: 900, height: 1600)
+                .ignoresSafeArea()
+        )
     }
 }
 
