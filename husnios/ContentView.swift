@@ -9,14 +9,6 @@ enum AppState {
     case Main
 }
 
-struct LoadingScreen: View {
-    var body: some View {
-        VStack {
-            Text("Loading....").font(.title)
-        }
-    }
-}
-
 private func checkIfUserIsLoggedIn(completion: @escaping (Bool) -> Void) {
     GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
         if let user = user {
@@ -44,14 +36,19 @@ private func checkIfUserIsOnboarded(completion: @escaping (Bool) -> Void) {
 
 struct ContentView: View {
     @State var appState: AppState = .Startup
+    @State private var showLoadingScreen = true
     
     var body: some View {
         Group {
-            switch appState {
-            case .Startup : LoadingScreen()
-            case .Login : LoginScreen(appState: $appState)
-            case .Onboarding: OnboardingScreen(appState: $appState)
-            case .Main: MainScreen()
+            if showLoadingScreen {
+                LoadingScreen()
+            } else {
+                switch appState {
+                case .Startup : LoadingScreen()
+                case .Login : LoginScreen(appState: $appState)
+                case .Onboarding: OnboardingScreen(appState: $appState)
+                case .Main: MainScreen()
+                }
             }
         }
         .onAppear(perform: handleAppState)
@@ -61,19 +58,24 @@ struct ContentView: View {
     }
     
     private func handleAppState() {
-        checkIfUserIsLoggedIn { isLoggedIn in
-            if (!isLoggedIn) {
-                appState = .Login
-                return
-            }
-            
-            checkIfUserIsOnboarded { isOnboarded in
-                if (!isOnboarded) {
-                    appState = .Onboarding
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Ensure LoadingScreen is shown for at least 1 second
+            checkIfUserIsLoggedIn { isLoggedIn in
+                if (!isLoggedIn) {
+                    appState = .Login
+                    showLoadingScreen = false
                     return
                 }
+                
+                checkIfUserIsOnboarded { isOnboarded in
+                    if (!isOnboarded) {
+                        appState = .Onboarding
+                        showLoadingScreen = false
+                        return
+                    }
+                }
+                appState = .Main
+                showLoadingScreen = false
             }
-            appState = .Main
         }
     }
 }

@@ -8,18 +8,23 @@ import SwiftUI
 // in ContentView along with appState
 struct LoginScreen: View {
     @Binding var appState: AppState
-    
+    @Environment(\.colorScheme) var colorScheme
+
     var body: some View {
-        ZStack {
-            Color.white.edgesIgnoringSafeArea(.all)
-            GoogleSignInButton(action: {
+
+        VStack {
+            GoogleSignInButton(
+                scheme:(colorScheme == ColorScheme.dark ? .dark : .light),
+                style : .wide,
+                action: {
                 handleSignInButton { success in
                     if success {
                         appState = .Onboarding
                     }
                 }
             })
-        }
+        }.background(Color(.systemBackground))
+            .frame(width: 200)
     }
 }
 
