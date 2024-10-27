@@ -19,16 +19,23 @@ struct LoginScreen: View {
             //                .padding(.bottom, 50)
             
             
-            GoogleSignInButton(
-                scheme:(colorScheme == ColorScheme.dark ? .dark : .light),
-                style : .wide,
-                action: {
-                    handleSignInButton { success in
-                        if success {
-                            appState = .Onboarding
+            VStack {
+                GoogleSignInButton(
+                    scheme:(colorScheme == ColorScheme.dark ? .dark : .light),
+                    style : .wide,
+                    action: {
+                        handleSignInButton { success in
+                            if success {
+                                appState = .Onboarding
+                            }
                         }
-                    }
-                }).frame(width: 240, height: 0)
+                    }).frame(width: 180)
+                    .cornerRadius(12)
+                
+            }
+            .scaleEffect(x: 1.8, y: 1.8)
+            
+            
             Spacer()
             
         }.background(
