@@ -4,13 +4,21 @@ struct WishlistScreen: View {
     @StateObject private var viewModel = WishlistViewModel()
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
+            if (viewModel.wishlisted_products.isEmpty) {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(viewModel.wishlisted_products) { product in
+                    ForEach(sampleProducts4) { product in
                         SecondaryProductView(product: product)
                     }
+                }.redacted(reason: .placeholder)
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                        ForEach(viewModel.wishlisted_products) { product in
+                            SecondaryProductView(product: product)
+                        }
+                    }
+                    .padding()
                 }
-                .padding()
             }
         }.onAppear {
             viewModel.fetchWishlistedProducts()

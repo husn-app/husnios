@@ -12,9 +12,16 @@ struct ProductScreen: View {
                 VStack(spacing: 0) {
                     SearchBar(text: $searchQuery, isSearchCommited: $isSearchCommited)
                     
-                    // Main product occupying full width
-                    MainProductView(product: viewModel.product)
-                        .frame(maxWidth: .infinity)
+                    if (viewModel.product.primary_image.isEmpty) {
+                        // Main product occupying full width
+                        MainProductView(product: sampleProduct, is_placeholder: true)
+                            .frame(maxWidth: .infinity)
+                            .redacted(reason: .placeholder)
+                    } else {
+                        // Main product occupying full width
+                        MainProductView(product: viewModel.product)
+                            .frame(maxWidth: .infinity)
+                    }
                     
                     // Feed of secondary search results
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {

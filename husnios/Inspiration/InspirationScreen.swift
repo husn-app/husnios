@@ -5,34 +5,51 @@ struct InspirationScreen: View {
     
     var body: some View {
         VStack (spacing: 0){
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    ForEach($viewModel.inspirations, id: \.id) { $inspiration in
-                        VStack(alignment: .leading) {
-                            Text(inspiration.category)
-                                .font(.system(size: 20))
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.horizontal)
-                                .padding(.bottom, 8)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 16) {
-                                    ForEach(inspiration.products) { product in
-                                        SubInspirationView(product: product)
-                                    }
-                                }
-                                .padding(.horizontal)
-                            }
-                        }
-                        Divider()
-                    }
+            if (viewModel.inspirations.isEmpty) {
+                VStack(alignment: .leading) {
+                    InspirationView(inspiration: sampleInspiration)
+                        .redacted(reason: .placeholder)
+                        .padding(.vertical)
+                    Spacer()
                 }
-                .padding(.vertical)
+                
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        ForEach($viewModel.inspirations, id: \.id) { $inspiration in
+                            InspirationView(inspiration: inspiration)
+                            Divider()
+                        }
+                    }
+                    .padding(.vertical)
+                }
             }
         }
         .onAppear {
             viewModel.fetchInspirations()
             // viewModel.inspirations = sampleInspirations
+        }
+    }
+}
+
+struct InspirationView : View {
+    var inspiration : Inspiration
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(inspiration.category)
+                .font(.system(size: 20))
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.horizontal)
+                .padding(.bottom, 8)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(inspiration.products) { product in
+                        SubInspirationView(product: product)
+                    }
+                }
+                .padding(.horizontal)
+            }
         }
     }
 }

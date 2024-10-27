@@ -33,3 +33,28 @@ let sampleProducts = (0..<100).map { i in
     )
 }
 
+// Sample data based on your JSON
+let sampleProducts4 = (0..<4).map { i in
+    Product(
+        original_website: sampleProduct.original_website,
+        product_url: sampleProduct.product_url,
+        product_id: sampleProduct.product_id,
+        product_name: "product name \(i)",
+        rating: sampleProduct.rating,
+        rating_count: sampleProduct.rating_count,
+        brand: sampleProduct.brand,
+        primary_image: sampleProduct.primary_image,
+        sizes: sampleProduct.sizes,
+        gender: sampleProduct.gender,
+        price: sampleProduct.price,
+        index: i,
+        inspiration_subcategory: InspirationSubcategory(name: "Casual Button Downs \(i)", query: "/search/query\(i)")
+    )
+}
+
+let sampleInspiration = Inspiration(
+    category: "Smart Casual",
+    products: sampleProducts4
+)
+
+let sampleInspirations = Array(repeating: sampleInspiration, count: 12)

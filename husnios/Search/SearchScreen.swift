@@ -11,15 +11,26 @@ struct SearchScreen: View {
             SearchBar(text: $query, isSearchCommited: $isSearchCommited)
             
             // Feed of search results
-            ScrollView {
+            if (viewModel.products.isEmpty) {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(viewModel.products) { product in
+                    ForEach(sampleProducts4) { product in
                         SecondaryProductView(product: product)
+                            .foregroundColor(.primary) // Ensure default color for placeholders
                     }
                 }
+                .redacted(reason: .placeholder)
                 .padding()
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                        ForEach(viewModel.products) { product in
+                            SecondaryProductView(product: product)
+                        }
+                    }
+                    .padding()
+                }
+                .padding(.bottom, 70) // To prevent content from being hidden behind the bottom bar
             }
-            .padding(.bottom, 70) // To prevent content from being hidden behind the bottom bar
         }
         .overlay(
             BottomNavbarView(selectedTab: "")

@@ -1,10 +1,3 @@
-let sampleInspiration = Inspiration(
-    category: "Sample Category",
-    products: Array(repeating: sampleProduct, count: 8)
-)
-
-let sampleInspirations = Array(repeating: sampleInspiration, count: 12)
-
 import Foundation
 import Combine
 

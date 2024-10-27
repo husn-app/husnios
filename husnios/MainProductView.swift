@@ -3,69 +3,75 @@ import SwiftUI
 struct MainProductView: View {
     var product: Product
     var is_embedded_in_feed : Bool = false
-    @State private var isLiked: Bool = false
+    
+    // To make decisions on what to remove in placeholders.
+    var is_placeholder: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            if (is_embedded_in_feed) {
-                BrandIconAndName(product:product).padding(.bottom, 4)
-            }
-            
-            // Product Image with rating overlay
-            ZStack(alignment: .bottomTrailing) {
-                AsyncImage(url: URL(string: product.primary_image)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(3/4, contentMode: .fill)
-                        .clipped()
-                } placeholder: {
-                    ProgressView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .aspectRatio(3/4, contentMode: .fill)
-                        .clipped()
+        if !product.primary_image.isEmpty {
+            VStack(alignment: .leading, spacing: 0) {
+                if (is_embedded_in_feed) {
+                    BrandIconAndName(product:product).padding(.bottom, 4)
                 }
                 
-                if product.rating_count > 0 {
-                    HStack(spacing: 4) {
-                        RatingView(rating:product.rating, maxRating: 5)
-                        Text("(\(product.rating_count))") // Number of reviews
-                            .font(.footnote)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.primary)
+                // Product Image with rating overlay
+                ZStack(alignment: .bottomTrailing) {
+                    AsyncImage(url: URL(string: product.primary_image)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(3/4, contentMode: .fill)
+                            .clipped()
+                    } placeholder: {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .aspectRatio(3/4, contentMode: .fill)
+                            .clipped()
                     }
-                    .padding(4)
-                    .background(Color(UIColor.systemGray).opacity(0.6))
-                    .cornerRadius(8)
-                    .padding([.bottom, .trailing], 8)
+                    
+                    if product.rating_count > 0 {
+                        HStack(spacing: 4) {
+                            RatingView(rating:product.rating, maxRating: 5)
+                            Text("(\(product.rating_count))") // Number of reviews
+                                .font(.footnote)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.primary)
+                        }
+                        .padding(4)
+                        .background(Color(UIColor.systemGray).opacity(0.6))
+                        .cornerRadius(8)
+                        .padding([.bottom, .trailing], 8)
+                    }
                 }
-            }
-            
-            // Overlay buttons below the image
-            MainProductIconTray(product: product)
-                .padding(.horizontal, 4)
-                .padding(.vertical, 4)
-            
-            // Product details
-            VStack(alignment: .leading, spacing: 0) {
-                if (!is_embedded_in_feed) {
-                    Text(product.brand)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
+                
+                if (!is_placeholder) {
+                    // Overlay buttons below the image
+                    MainProductIconTray(product: product)
+                        .padding(.horizontal, 4)
+                        .padding(.vertical, 4)
+                }
+                
+                // Product details
+                VStack(alignment: .leading, spacing: 0) {
+                    if (!is_embedded_in_feed) {
+                        Text(product.brand)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                            .lineLimit(1)
+                    }
+                    
+                    Text(product.product_name.replacingOccurrences(of: product.brand, with: "").trimmingCharacters(in: .whitespacesAndNewlines))
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .padding(.bottom, 8)
                         .lineLimit(1)
                 }
-                
-                Text(product.product_name.replacingOccurrences(of: product.brand, with: "").trimmingCharacters(in: .whitespacesAndNewlines))
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .padding(.bottom, 8)
-                    .lineLimit(1)
+                .padding(.horizontal, 4)
             }
-            .padding(.horizontal, 4)
+            .background(Color(.systemBackground))
+            .padding(.horizontal, 0)
+            .padding(.vertical, 16)
         }
-        .background(Color(.systemBackground))
-        .padding(.horizontal, 0)
-        .padding(.vertical, 16)
     }
 }
 
@@ -132,9 +138,13 @@ struct BrandIconAndName: View {
 
 struct MainProductIconTray: View {
     var product: Product
-    @State var isLiked: Bool = false
+    @State private var isLiked: Bool
     @State var showError: Bool = false
     
+    init(product: Product) {
+        self.product = product
+        self._isLiked = State(initialValue: product.is_wishlisted)
+    }
     var body: some View {
         HStack(spacing: 20) {
             VStack {
@@ -142,9 +152,9 @@ struct MainProductIconTray: View {
                 Button(action: {
                     toggleWishlistStatus()
                 }) {
-                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                    Image(systemName: self.isLiked ? "heart.fill" : "heart")
                         .font(.title)
-                        .foregroundColor(isLiked ? .red : .gray)
+                        .foregroundColor(self.isLiked ? .red : .gray)
                 }
                 .alert(isPresented: $showError) {
                     Alert(title: Text("Error"), message: Text("Failed to update wishlist status"), dismissButton: .default(Text("OK")))

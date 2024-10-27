@@ -35,6 +35,8 @@ struct Product: Identifiable {
     let price: Double
     let index: Int
     let inspiration_subcategory: InspirationSubcategory
+    //  is_wishlisted is only set in user-context.
+    let is_wishlisted : Bool
     
     init(
         original_website: String = "",
@@ -50,7 +52,8 @@ struct Product: Identifiable {
         gender: String = "",
         price: Double = 0.0,
         index: Int = 0,
-        inspiration_subcategory: InspirationSubcategory = InspirationSubcategory()
+        inspiration_subcategory: InspirationSubcategory = InspirationSubcategory(),
+        is_wishlisted: Bool = false
     ) {
         self.original_website = original_website
         self.product_url = product_url
@@ -66,6 +69,7 @@ struct Product: Identifiable {
         self.price = price
         self.index = index
         self.inspiration_subcategory = inspiration_subcategory
+        self.is_wishlisted = is_wishlisted
     }
     
     init(json: [String: Any]) {
@@ -87,6 +91,7 @@ struct Product: Identifiable {
         } else {
             self.inspiration_subcategory = InspirationSubcategory()
         }
+        self.is_wishlisted = json["is_wishlisted"] as? Bool ?? false
     }
 }
 
