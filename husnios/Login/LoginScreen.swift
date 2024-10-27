@@ -30,7 +30,7 @@ func handleSignInButton(completion: @escaping (Bool) -> Void) {
         return
     }
     
-    GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { signInResult, error in
+    GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController, hint: nil, additionalScopes: ["email", "profile"]) { signInResult, error in
         if let error = error {
             print("Error during sign in: \(error.localizedDescription)")
             completion(false)
