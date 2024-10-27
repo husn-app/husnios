@@ -40,15 +40,11 @@ struct ContentView: View {
     
     var body: some View {
         Group {
-            if showLoadingScreen {
-                LoadingScreen()
-            } else {
-                switch appState {
-                case .Startup : LoadingScreen()
-                case .Login : LoginScreen(appState: $appState)
-                case .Onboarding: OnboardingScreen(appState: $appState)
-                case .Main: MainScreen()
-                }
+            switch appState {
+            case .Startup : LoadingScreen()
+            case .Login : LoginScreen(appState: $appState)
+            case .Onboarding: OnboardingScreen(appState: $appState)
+            case .Main: MainScreen()
             }
         }
         .onAppear(perform: handleAppState)
@@ -62,19 +58,17 @@ struct ContentView: View {
             checkIfUserIsLoggedIn { isLoggedIn in
                 if (!isLoggedIn) {
                     appState = .Login
-                    showLoadingScreen = false
                     return
                 }
                 
                 checkIfUserIsOnboarded { isOnboarded in
                     if (!isOnboarded) {
                         appState = .Onboarding
-                        showLoadingScreen = false
                         return
+                    } else {
+                        appState = .Main
                     }
                 }
-                appState = .Main
-                showLoadingScreen = false
             }
         }
     }

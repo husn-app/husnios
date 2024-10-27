@@ -55,6 +55,11 @@ struct TopNavbar: View {
                 message: Text("Are you sure you want to logout?"),
                 primaryButton: .destructive(Text("Logout")) {
                     GIDSignIn.sharedInstance.signOut()
+                    if let cookies = HTTPCookieStorage.shared.cookies {
+                        for cookie in cookies {
+                            HTTPCookieStorage.shared.deleteCookie(cookie)
+                        }
+                    }
                     if let window = UIApplication.shared.windows.first {
                         window.rootViewController = UIHostingController(rootView: ContentView())
                         window.makeKeyAndVisible()
