@@ -8,70 +8,68 @@ struct MainProductView: View {
     var is_placeholder: Bool = false
     
     var body: some View {
-        if !product.primary_image.isEmpty {
-            VStack(alignment: .leading, spacing: 0) {
-                if (is_embedded_in_feed) {
-                    BrandIconAndName(product:product).padding(.bottom, 4)
+        VStack(alignment: .leading, spacing: 0) {
+            if (is_embedded_in_feed) {
+                BrandIconAndName(product:product).padding(.bottom, 4)
+            }
+            
+            // Product Image with rating overlay
+            ZStack(alignment: .bottomTrailing) {
+                AsyncImage(url: URL(string: product.primary_image)) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(3/4, contentMode: .fill)
+                        .clipped()
+                } placeholder: {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .aspectRatio(3/4, contentMode: .fill)
+                        .clipped()
                 }
                 
-                // Product Image with rating overlay
-                ZStack(alignment: .bottomTrailing) {
-                    AsyncImage(url: URL(string: product.primary_image)) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(3/4, contentMode: .fill)
-                            .clipped()
-                    } placeholder: {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .aspectRatio(3/4, contentMode: .fill)
-                            .clipped()
-                    }
-                    
-                    if product.rating_count > 0 {
-                        HStack(spacing: 4) {
-                            RatingView(rating:product.rating, maxRating: 5)
-                            Text("(\(product.rating_count))") // Number of reviews
-                                .font(.footnote)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.primary)
-                        }
-                        .padding(4)
-                        .background(Color(UIColor.systemGray).opacity(0.6))
-                        .cornerRadius(8)
-                        .padding([.bottom, .trailing], 8)
-                    }
-                }
-                
-                if (!is_placeholder) {
-                    // Overlay buttons below the image
-                    MainProductIconTray(product: product)
-                        .padding(.horizontal, 4)
-                        .padding(.vertical, 4)
-                }
-                
-                // Product details
-                VStack(alignment: .leading, spacing: 0) {
-                    if (!is_embedded_in_feed) {
-                        Text(product.brand)
-                            .font(.title2)
-                            .fontWeight(.bold)
+                if product.rating_count > 0 {
+                    HStack(spacing: 4) {
+                        RatingView(rating:product.rating, maxRating: 5)
+                        Text("(\(product.rating_count))") // Number of reviews
+                            .font(.footnote)
+                            .fontWeight(.semibold)
                             .foregroundColor(.primary)
-                            .lineLimit(1)
                     }
-                    
-                    Text(product.product_name.replacingOccurrences(of: product.brand, with: "").trimmingCharacters(in: .whitespacesAndNewlines))
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 8)
+                    .padding(4)
+                    .background(Color(UIColor.systemGray).opacity(0.6))
+                    .cornerRadius(8)
+                    .padding([.bottom, .trailing], 8)
+                }
+            }
+            
+            if (!is_placeholder) {
+                // Overlay buttons below the image
+                MainProductIconTray(product: product)
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 4)
+            }
+            
+            // Product details
+            VStack(alignment: .leading, spacing: 0) {
+                if (!is_embedded_in_feed) {
+                    Text(product.brand)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
                         .lineLimit(1)
                 }
-                .padding(.horizontal, 4)
+                
+                Text(product.product_name.replacingOccurrences(of: product.brand, with: "").trimmingCharacters(in: .whitespacesAndNewlines))
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .padding(.bottom, 8)
+                    .lineLimit(1)
             }
-            .background(Color(.systemBackground))
-            .padding(.horizontal, 0)
-            .padding(.vertical, 16)
+            .padding(.horizontal, 4)
         }
+        .background(Color(.systemBackground))
+        .padding(.horizontal, 0)
+        .padding(.vertical, 16)
     }
 }
 
@@ -141,10 +139,15 @@ struct MainProductIconTray: View {
     @State private var isLiked: Bool
     @State var showError: Bool = false
     
+    // NOTE: setting state this way only works because we ensure that when products don't exist
+    // placeholder views are loaded instead. If we remove placeholder views, self._isLiked won't be
+    // set in init(). Since this is called once with empty product and latter with the real product
+    // after onAppear.
     init(product: Product) {
         self.product = product
         self._isLiked = State(initialValue: product.is_wishlisted)
     }
+    
     var body: some View {
         HStack(spacing: 20) {
             VStack {
