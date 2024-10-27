@@ -132,20 +132,22 @@ struct BrandIconAndName: View {
 
 struct MainProductIconTray: View {
     var product: Product
-    // TODO: Replace with is_wishlisted.
     @State var isLiked: Bool = false
+    @State var showError: Bool = false
     
     var body: some View {
         HStack(spacing: 20) {
             VStack {
                 Spacer()
                 Button(action: {
-                    isLiked.toggle()
-                    toggleWishlist()
+                    toggleWishlistStatus()
                 }) {
                     Image(systemName: isLiked ? "heart.fill" : "heart")
                         .font(.title)
                         .foregroundColor(isLiked ? .red : .gray)
+                }
+                .alert(isPresented: $showError) {
+                    Alert(title: Text("Error"), message: Text("Failed to update wishlist status"), dismissButton: .default(Text("OK")))
                 }
             }
             
@@ -181,10 +183,57 @@ struct MainProductIconTray: View {
         }
     }
     
-    private func toggleWishlist() {
-        // TODO: Implement post call to backend.
+    func toggleWishlistStatus() {
+        getLikedStatusAfterToggle(product_id: product.index) { newStatus in
+            if (newStatus == "error") {
+                showError = true
+            } else {
+                isLiked = (newStatus == "true")
+            }
+        }
     }
 }
+
+func getLikedStatusAfterToggle(product_id: Int, completion: @escaping (String) -> Void) {
+    let url = URL(string: "\(Config.HUSN_SERVER_URL)/api/wishlist/\(product_id)")
+    var request = URLRequest(url: url!)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        DispatchQueue.main.async {
+            do {
+                if let error = error {
+                    print(error)
+                    completion("error")
+                    return
+                }
+                
+                guard let data = data else {
+                    print("No data received")
+                    completion("error")
+                    return
+                }
+                
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                    if let wishlistStatus = json["wishlist_status"] as? Bool {
+                        let newStatus: String = wishlistStatus ? "true" : "false"
+                        completion(newStatus)
+                    } else {
+                        completion("error")
+                    }
+                } catch {
+                    print("Failed to parse JSON")
+                    print("Data received: \(String(data: data, encoding: .utf8) ?? "Unable to convert data to string")")
+                    completion("error")
+                }
+            }
+        }
+    }
+    task.resume()
+}
+
 
 #Preview {
     MainProductView(product: sampleProduct)
