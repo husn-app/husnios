@@ -41,7 +41,7 @@ struct MainScreen: View {
                 .accentColor(.primary)
             }
             .background(
-                NavigationLink(destination: SearchScreen(query: searchQuery), isActive: $isSearchCommited) {
+                NavigationLink(destination: SearchScreen(query: searchQuery, referrer:"\(selectedTab)"), isActive: $isSearchCommited) {
                     EmptyView()
                 }
             )

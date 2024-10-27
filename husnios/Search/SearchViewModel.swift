@@ -5,13 +5,13 @@ class SearchViewModel: ObservableObject {
     @Published var products: [Product] = []
 
     
-    func fetchProductDetails(query: String) {
+    func fetchSearchResults(query: String, referrer: String) {
         let url = URL(string: "\(Config.HUSN_SERVER_URL)/api/query")
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: ["query": query], options: [])
+        let jsonData = try? JSONSerialization.data(withJSONObject: ["query": query, "referrer" : "ios/\(referrer)"], options: [])
         request.httpBody = jsonData
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {

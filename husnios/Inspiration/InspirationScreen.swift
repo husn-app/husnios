@@ -61,7 +61,7 @@ struct SubInspirationView: View {
         VStack {
             // Assuming `primary_image` is a URL string
             if let url = URL(string: product.primary_image) {
-                NavigationLink(destination: SearchScreen(query: product.inspiration_subcategory.query)) {
+                NavigationLink(destination: SearchScreen(query: product.inspiration_subcategory.query, referrer:"inspiration/subcategory=\(product.inspiration_subcategory.name)")) {
                     AsyncImage(url: url) { image in
                         image
                             .resizable()

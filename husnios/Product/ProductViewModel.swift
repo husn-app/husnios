@@ -5,13 +5,13 @@ class ProductViewModel: ObservableObject {
     @Published var product: Product = Product()
     @Published var similarProducts: [Product] = []
 
-    func fetchProductDetails(product_id: Int) {
+    func fetchProductDetails(product_id: Int, referrer: String) {
         let url = URL(string: "\(Config.HUSN_SERVER_URL)/api/product/\(product_id)")
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: ["x": "y"], options: [])
+        let jsonData = try? JSONSerialization.data(withJSONObject: ["referrer": "ios/\(referrer)"], options: [])
         request.httpBody = jsonData
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {

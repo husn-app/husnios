@@ -38,9 +38,10 @@ struct SecondaryProductWithoutNavigationView: View {
 
 struct SecondaryProductView: View {
     let product: Product
+    var referrer : String = ""
     
     var body: some View {
-        NavigationLink(destination: ProductScreen(product_id: product.index)) {
+        NavigationLink(destination: ProductScreen(product_id: product.index, referrer: referrer)) {
             SecondaryProductWithoutNavigationView(product: product)
         }
     }

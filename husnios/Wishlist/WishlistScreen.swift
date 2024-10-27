@@ -14,7 +14,7 @@ struct WishlistScreen: View {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                         ForEach(viewModel.wishlisted_products) { product in
-                            SecondaryProductView(product: product)
+                            SecondaryProductView(product: product, referrer: "wishlist")
                         }
                     }
                     .padding()

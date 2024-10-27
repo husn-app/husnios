@@ -4,6 +4,14 @@ struct SearchScreen: View {
     @StateObject private var viewModel = SearchViewModel()
     @State var query: String
     @State private var isSearchCommited: Bool = false
+    @State private var previousQuery: String
+    var referrer : String = ""
+    
+    init(query: String, referrer: String="") {
+        self.query = query
+        self.referrer = referrer
+        self._previousQuery = State(initialValue: query)
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -24,8 +32,8 @@ struct SearchScreen: View {
             } else {
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                        ForEach(viewModel.products) { product in
-                            SecondaryProductView(product: product)
+                        ForEach(Array(viewModel.products.enumerated()), id: \.element.id) { rank, product in
+                            SecondaryProductView(product: product, referrer: "search/query=\(query)/rank=\(rank)")
                         }
                     }
                     .padding()
@@ -38,12 +46,13 @@ struct SearchScreen: View {
         )
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
-            viewModel.fetchProductDetails(query: query)
+            viewModel.fetchSearchResults(query: query, referrer: referrer)
         }
         .onChange(of: isSearchCommited) { newValue in
             if newValue {
                 self.isSearchCommited = false
-                viewModel.fetchProductDetails(query: query)
+                viewModel.fetchSearchResults(query: query, referrer: "search/query=\(previousQuery)")
+                previousQuery = query
             }
         }
     }
