@@ -36,11 +36,15 @@ struct TopNavbar: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
             Spacer()
-            ProfilePic()
-            
-                .onTapGesture {
+            Menu {
+                Button(action: {
                     showLogoutAlert = true
+                }) {
+                    Text("Logout")
                 }
+            } label: {
+                ProfilePic()
+            }
         }
         .padding(.top, 0)
         .padding(.horizontal)
@@ -51,6 +55,10 @@ struct TopNavbar: View {
                 message: Text("Are you sure you want to logout?"),
                 primaryButton: .destructive(Text("Logout")) {
                     GIDSignIn.sharedInstance.signOut()
+                    if let window = UIApplication.shared.windows.first {
+                        window.rootViewController = UIHostingController(rootView: ContentView())
+                        window.makeKeyAndVisible()
+                    }
                 },
                 secondaryButton: .cancel()
             )

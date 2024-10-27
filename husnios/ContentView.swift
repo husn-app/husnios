@@ -53,24 +53,27 @@ struct ContentView: View {
             case .Onboarding: OnboardingScreen(appState: $appState)
             case .Main: MainScreen()
             }
-        }.onAppear {
-            // NOTE: any function is not entered synchronously if appState is not inside it.
-            // If we update appState sequentially rather than protected, then for each appState
-            // update we create a new screen, which is re-rendered again.
-            checkIfUserIsLoggedIn { isLoggedIn in
-                if (!isLoggedIn) {
-                    appState = .Login
+        }
+        .onAppear(perform: handleAppState)
+        .onChange(of: appState, perform: { _ in
+            handleAppState()
+        })
+    }
+    
+    private func handleAppState() {
+        checkIfUserIsLoggedIn { isLoggedIn in
+            if (!isLoggedIn) {
+                appState = .Login
+                return
+            }
+            
+            checkIfUserIsOnboarded { isOnboarded in
+                if (!isOnboarded) {
+                    appState = .Onboarding
                     return
                 }
-                
-                checkIfUserIsOnboarded { isOnboarded in
-                    if (!isOnboarded) {
-                        appState = .Onboarding
-                        return
-                    }
-                }
-                appState = .Main
             }
+            appState = .Main
         }
     }
 }
