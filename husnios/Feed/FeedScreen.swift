@@ -16,8 +16,8 @@ struct FeedScreen: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         // Display all products as MainProductView
-                        ForEach(viewModel.products) { product in
-                            NavigationLink(destination: ProductScreen(product_id: product.index)) {
+                        ForEach(Array(viewModel.products.enumerated()), id: \.element.id) { rank, product in
+                            NavigationLink(destination: ProductScreen(product_id: product.index, referrer: "feed/rank=\(rank)")) {
                                 MainProductView(product: product, is_embedded_in_feed: true)
                                     .frame(maxWidth: .infinity)
                             }

@@ -5,6 +5,7 @@ struct ProductScreen: View {
     @StateObject private var viewModel = ProductViewModel()
     @State private var isSearchCommited = false
     @State private var searchQuery = ""
+    var referrer : String = ""
     
     var body: some View {
         VStack(spacing: 0) {
@@ -25,8 +26,8 @@ struct ProductScreen: View {
                     
                     // Feed of secondary search results
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                        ForEach(viewModel.similarProducts) { product in
-                            SecondaryProductView(product: product)
+                        ForEach(Array(viewModel.similarProducts.enumerated()), id: \.element.id) { rank, product in
+                            SecondaryProductView(product: product, referrer: "product/product_id=\(product.index)/rank=\(rank)")
                         }
                     }
                     .padding()
@@ -39,7 +40,7 @@ struct ProductScreen: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear {
-            viewModel.fetchProductDetails(product_id: product_id)
+            viewModel.fetchProductDetails(product_id: product_id, referrer: referrer)
         }
         .background(
             NavigationLink(destination: SearchScreen(query: searchQuery), isActive: $isSearchCommited) {
