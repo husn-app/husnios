@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct FeedScreen: View {
-    @StateObject private var viewModel = FeedViewModel()
+    @ObservedObject var viewModel:FeedViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -30,12 +30,13 @@ struct FeedScreen: View {
             }
         }
         .onAppear {
-            viewModel.fetchFeedProducts()
-            // viewModel.products = sampleProducts
+            if viewModel.products.isEmpty {
+                viewModel.fetchFeedProducts()
+            }
         }
     }
 }
 
 #Preview {
-    FeedScreen()
+    FeedScreen(viewModel: FeedViewModel())
 }

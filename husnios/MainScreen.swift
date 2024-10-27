@@ -10,6 +10,8 @@ struct MainScreen: View {
     @State var selectedTab: Tab = Tab.Home
     @State private var isSearchCommited = false
     @State private var searchQuery = ""
+    @StateObject private var feedViewModel = FeedViewModel()
+    @StateObject private var inspirationViewModel = InspirationViewModel()
     
     var body: some View {
         NavigationView {
@@ -18,13 +20,14 @@ struct MainScreen: View {
                 SearchBar(text: $searchQuery, isSearchCommited: $isSearchCommited)
                 
                 TabView(selection: $selectedTab) {
-                    FeedScreen()                        .tabItem {
+                    FeedScreen(viewModel: feedViewModel)
+                        .tabItem {
                         Image(systemName: "house")
                         Text("Home")
                     }
                     .tag(Tab.Home)
                     
-                    InspirationScreen()
+                    InspirationScreen(viewModel: inspirationViewModel)
                         .tabItem {
                             Image(systemName: "sparkles")
                             Text("Inspiration")
@@ -39,6 +42,13 @@ struct MainScreen: View {
                         .tag(Tab.Wishlist)
                 }
                 .accentColor(.primary)
+                .onChange(of: selectedTab) { newTab in
+                    if newTab == .Home {
+                        feedViewModel.fetchFeedProducts()
+                    } else if newTab == .Inspiration {
+                        inspirationViewModel.fetchInspirations()
+                    }
+                }
             }
             .background(
                 NavigationLink(destination: SearchScreen(query: searchQuery, referrer:"\(selectedTab)"), isActive: $isSearchCommited) {

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct InspirationScreen: View {
-    @StateObject private var viewModel = InspirationViewModel()
+    @ObservedObject var viewModel:InspirationViewModel
     
     var body: some View {
         VStack (spacing: 0){
@@ -96,5 +96,5 @@ struct SubInspirationView: View {
 }
 
 #Preview {
-    InspirationScreen()
+    InspirationScreen(viewModel: InspirationViewModel())
 }
