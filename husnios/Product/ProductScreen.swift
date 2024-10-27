@@ -9,30 +9,42 @@ struct ProductScreen: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 0) {
-                    SearchBar(text: $searchQuery, isSearchCommited: $isSearchCommited)
-                    
-                    if (viewModel.product.primary_image.isEmpty) {
-                        // Main product occupying full width
-                        MainProductView(product: sampleProduct, is_placeholder: true)
-                            .frame(maxWidth: .infinity)
-                            .redacted(reason: .placeholder)
-                    } else {
-                        // Main product occupying full width
-                        MainProductView(product: viewModel.product)
-                            .frame(maxWidth: .infinity)
-                    }
-                    
-                    // Feed of secondary search results
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                        ForEach(Array(viewModel.similarProducts.enumerated()), id: \.element.id) { rank, product in
-                            SecondaryProductView(product: product, referrer: "product/product_id=\(product.index)/rank=\(rank)")
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 0) {
+                        SearchBar(text: $searchQuery, isSearchCommited: $isSearchCommited)
+                        
+                        if (viewModel.product.primary_image.isEmpty) {
+                            // Main product occupying full width
+                            MainProductView(product: sampleProduct, is_placeholder: true)
+                                .frame(maxWidth: .infinity)
+                                .redacted(reason: .placeholder)
+                        } else {
+                            // Main product occupying full width
+                            MainProductView(product: viewModel.product)
+                                .frame(maxWidth: .infinity)
+                                .padding(.top, 8)
+                                .padding(.bottom, 4)
                         }
+                        
+                        Image(systemName: "chevron.down.2").imageScale(.medium)
+                            .onTapGesture {
+                                withAnimation {
+                                    proxy.scrollTo("similar_products", anchor: .top)
+                                }
+                            }
+                        
+                        // Feed of secondary search results
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                            ForEach(Array(viewModel.similarProducts.enumerated()), id: \.element.id) { rank, product in
+                                SecondaryProductView(product: product, referrer: "product/product_id=\(product.index)/rank=\(rank)")
+                            }
+                        }
+                        .padding()
+                        .id("similar_products")
                     }
-                    .padding()
+                    .padding(.bottom, 70) // To prevent content from being hidden behind the bottom bar
                 }
-                .padding(.bottom, 70) // To prevent content from being hidden behind the bottom bar
             }
             .overlay(
                 BottomNavbarView(selectedTab : "")

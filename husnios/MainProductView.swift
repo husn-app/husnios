@@ -69,7 +69,10 @@ struct MainProductView: View {
         }
         .background(Color(.systemBackground))
         .padding(.horizontal, 0)
-        .padding(.vertical, 16)
+        .padding(.vertical, is_placeholder ? 16 : 0)
+        
+        // NOTE : Setting .padding(.vertical, 16) fixes the bug in the misplaced
+        // feed placeholder. Setting it there doesn't help.
     }
 }
 

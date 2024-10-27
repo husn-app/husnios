@@ -20,6 +20,7 @@ struct FeedScreen: View {
                             NavigationLink(destination: ProductScreen(product_id: product.index, referrer: "feed/rank=\(rank)")) {
                                 MainProductView(product: product, is_embedded_in_feed: true)
                                     .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
                             }
                             Divider()
                         }
