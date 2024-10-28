@@ -59,7 +59,7 @@ struct ContentView: View {
             case .Startup : LoadingScreen()
             case .Login : LoginScreen(appState: $appState)
             case .Onboarding: OnboardingScreen(appState: $appState)
-            case .Main: MainScreen(selectedTab: Tab.Home)
+            case .Main: MainScreen().id(appState) // Use .id to ensure MainScreen is only computed when appState is .Main
             }
         }
         .onAppear(perform: handleAppState)
