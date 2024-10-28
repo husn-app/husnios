@@ -12,8 +12,24 @@ enum AppState {
 private func checkIfUserIsLoggedIn(completion: @escaping (Bool) -> Void) {
     GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
         if let user = user {
-            print("User is logged in: \(user.profile?.name ?? "Unknown") \(user.profile?.email)")
-            completion(true)
+            if let cookies = HTTPCookieStorage.shared.cookies {
+                for cookie in cookies {
+                    if cookie.name == "auth_info" {
+                        if (cookie.value.isEmpty) {
+                            completion(false)
+                            return
+
+                        }
+                        print("User is logged in: \(user.profile?.name ?? "Unknown") \(user.profile?.email)")
+                        
+                        completion(true)
+                        return
+                    }
+                }
+            }
+            print("auth_info cookie doesn't exist. Logging out...")
+            LogoutAndClearCookies()
+            completion(false)
         } else {
             // Handle error if needed
             print("User is not logged in. Error: \(error?.localizedDescription ?? "Unknown error")")
