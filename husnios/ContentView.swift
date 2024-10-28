@@ -36,7 +36,6 @@ private func checkIfUserIsOnboarded(completion: @escaping (Bool) -> Void) {
 
 struct ContentView: View {
     @State var appState: AppState = .Startup
-    @State private var showLoadingScreen = true
     
     var body: some View {
         Group {
@@ -44,7 +43,7 @@ struct ContentView: View {
             case .Startup : LoadingScreen()
             case .Login : LoginScreen(appState: $appState)
             case .Onboarding: OnboardingScreen(appState: $appState)
-            case .Main: MainScreen()
+            case .Main: MainScreen(selectedTab: Tab.Home)
             }
         }
         .onAppear(perform: handleAppState)
@@ -54,7 +53,7 @@ struct ContentView: View {
     }
     
     private func handleAppState() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Ensure LoadingScreen is shown for at least 1 second
+       DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             checkIfUserIsLoggedIn { isLoggedIn in
                 if (!isLoggedIn) {
                     appState = .Login
@@ -67,9 +66,14 @@ struct ContentView: View {
                         return
                     } else {
                         appState = .Main
+                        return
                     }
                 }
             }
-        }
+       }
     }
+}
+
+#Preview {
+    ContentView(appState: .Main)
 }

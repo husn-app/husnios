@@ -44,9 +44,9 @@ struct MainScreen: View {
                 .accentColor(.primary)
                 .onChange(of: selectedTab) { newTab in
                     if newTab == .Home {
-                        feedViewModel.fetchFeedProducts()
+                        feedViewModel.products = []
                     } else if newTab == .Inspiration {
-                        inspirationViewModel.fetchInspirations()
+                        inspirationViewModel.inspirations = []
                     }
                 }
             }

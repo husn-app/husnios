@@ -26,8 +26,10 @@ struct InspirationScreen: View {
             }
         }
         .onAppear {
-            viewModel.fetchInspirations()
-            // viewModel.inspirations = sampleInspirations
+            if (viewModel.inspirations.isEmpty) {
+                viewModel.fetchInspirations()
+                // viewModel.inspirations = sampleInspirations
+            }
         }
     }
 }
