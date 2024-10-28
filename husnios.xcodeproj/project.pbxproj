@@ -31,7 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E9BC807A2CC27DA2001813F8 /* husnios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = husnios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9BC807A2CC27DA2001813F8 /* Husn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Husn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BC808D2CC27DA3001813F8 /* husniosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = husniosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BC80972CC27DA3001813F8 /* husniosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = husniosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9EFACFB2CCBE65D002CF809 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -39,12 +39,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		E9BC80AB2CC29F26001813F8 /* Exceptions for "husnios" folder in "husnios" target */ = {
+		E9BC80AB2CC29F26001813F8 /* Exceptions for "husnios" folder in "Husn" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = E9BC80792CC27DA2001813F8 /* husnios */;
+			target = E9BC80792CC27DA2001813F8 /* Husn */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -52,7 +52,7 @@
 		E9BC807C2CC27DA2001813F8 /* husnios */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				E9BC80AB2CC29F26001813F8 /* Exceptions for "husnios" folder in "husnios" target */,
+				E9BC80AB2CC29F26001813F8 /* Exceptions for "husnios" folder in "Husn" target */,
 			);
 			path = husnios;
 			sourceTree = "<group>";
@@ -111,7 +111,7 @@
 		E9BC807B2CC27DA2001813F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E9BC807A2CC27DA2001813F8 /* husnios.app */,
+				E9BC807A2CC27DA2001813F8 /* Husn.app */,
 				E9BC808D2CC27DA3001813F8 /* husniosTests.xctest */,
 				E9BC80972CC27DA3001813F8 /* husniosUITests.xctest */,
 			);
@@ -121,9 +121,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E9BC80792CC27DA2001813F8 /* husnios */ = {
+		E9BC80792CC27DA2001813F8 /* Husn */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E9BC80A12CC27DA3001813F8 /* Build configuration list for PBXNativeTarget "husnios" */;
+			buildConfigurationList = E9BC80A12CC27DA3001813F8 /* Build configuration list for PBXNativeTarget "Husn" */;
 			buildPhases = (
 				E9BC80762CC27DA2001813F8 /* Sources */,
 				E9BC80772CC27DA2001813F8 /* Frameworks */,
@@ -136,13 +136,13 @@
 			fileSystemSynchronizedGroups = (
 				E9BC807C2CC27DA2001813F8 /* husnios */,
 			);
-			name = husnios;
+			name = Husn;
 			packageProductDependencies = (
 				E9325C682CCC13E1005D0486 /* GoogleSignIn */,
 				E9325C6A2CCC13E1005D0486 /* GoogleSignInSwift */,
 			);
 			productName = husnios;
-			productReference = E9BC807A2CC27DA2001813F8 /* husnios.app */;
+			productReference = E9BC807A2CC27DA2001813F8 /* Husn.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E9BC808C2CC27DA3001813F8 /* husniosTests */ = {
@@ -231,7 +231,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E9BC80792CC27DA2001813F8 /* husnios */,
+				E9BC80792CC27DA2001813F8 /* Husn */,
 				E9BC808C2CC27DA3001813F8 /* husniosTests */,
 				E9BC80962CC27DA3001813F8 /* husniosUITests */,
 			);
@@ -291,12 +291,12 @@
 /* Begin PBXTargetDependency section */
 		E9BC808F2CC27DA3001813F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E9BC80792CC27DA2001813F8 /* husnios */;
+			target = E9BC80792CC27DA2001813F8 /* Husn */;
 			targetProxy = E9BC808E2CC27DA3001813F8 /* PBXContainerItemProxy */;
 		};
 		E9BC80992CC27DA3001813F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E9BC80792CC27DA2001813F8 /* husnios */;
+			target = E9BC80792CC27DA2001813F8 /* Husn */;
 			targetProxy = E9BC80982CC27DA3001813F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -612,7 +612,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E9BC80A12CC27DA3001813F8 /* Build configuration list for PBXNativeTarget "husnios" */ = {
+		E9BC80A12CC27DA3001813F8 /* Build configuration list for PBXNativeTarget "Husn" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E9BC80A22CC27DA3001813F8 /* Debug */,
