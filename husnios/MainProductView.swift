@@ -168,10 +168,21 @@ struct MainProductIconTray: View {
             }
             
             VStack {
+                let slug = product.product_name
+                    .lowercased()
+                    .replacingOccurrences(of: "[^a-z0-9\\s]+", with: "", options: .regularExpression)
+                    .replacingOccurrences(of: "\\s+", with: "-", options: .regularExpression)
+                
                 Spacer()
-                Button(action: {
-                    // Share action
-                }) {
+                ShareLink(
+                    item: URL(string: "https://husn.app/product/\(slug)/\(product.index)")!,
+                    subject: Text(product.product_name),
+                    message: Text("Hey, checkout this product I found on Husn."),
+                    preview: SharePreview(
+                        product.product_name,
+                        image: Image("AppIconImage")
+                    )
+                ) {
                     Image(systemName: "square.and.arrow.up")
                         .font(.title)
                         .foregroundColor(.gray)
