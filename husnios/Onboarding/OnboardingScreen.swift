@@ -22,19 +22,20 @@ struct OnboardingScreen: View {
                         selectedGender = gender
                     }) {
                         VStack {
-                            ZStack {
-                                Circle()
-                                    .fill(colorScheme == ColorScheme.dark ? Color.white.opacity(0.70) : Color.black.opacity(0.05))
-                                    .frame(width: 120, height: 120)
-                                    .overlay(
-                                        Circle()
-                                            .stroke(selectedGender == gender ? Color.primary : Color.clear, lineWidth: 4)
-                                    )
-                                Image(gender == "MAN" ? "Man" : "Woman")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                            }
+                            Circle()
+                                .fill(colorScheme == ColorScheme.dark ? Color.white.opacity(0.70) : Color.black.opacity(0.05))
+                                .frame(width: 120, height: 120)
+                                .overlay(
+                                    Circle()
+                                        .stroke(selectedGender == gender ? Color.primary : Color.clear, lineWidth: 4)
+                                )
+                                .overlay(
+                                    Image(gender == "MAN" ? "Man" : "Woman")
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                )
                             Text(gender == "MAN" ? "Male" : "Female")
+                                .fontWeight(selectedGender == gender ? .semibold : .regular)
                                 .foregroundColor(selectedGender == gender ? Color.primary : Color(.systemGray))
                         }
                     }
