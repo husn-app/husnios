@@ -45,8 +45,8 @@ struct MainProductView: View {
             if (!is_placeholder) {
                 // Overlay buttons below the image
                 MainProductIconTray(product: product)
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 4)
+                    .padding([.horizontal, .bottom], 4)
+                    .padding(.top, 0)
             }
             
             // Product details
@@ -181,10 +181,13 @@ struct MainProductIconTray: View {
             VStack {
                 Spacer()
                 Button(action: {
-                    // M icon action
+                    if let url = URL(string: product.product_url), UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }
                 }) {
-                    Image(systemName: "m.circle.fill")
-                        .font(.title)
+                    Image("Myntra-Logo")
+                        .resizable()
+                        .frame(width:36, height: 26)
                         .foregroundColor(.gray)
                 }
             }
