@@ -5,6 +5,7 @@ struct OnboardingScreen: View {
     @State private var age: Int = 24
     @State private var genders: [String] = ["MAN", "WOMAN"]
     @Binding var appState: AppState
+    @Environment(\.colorScheme) var colorScheme
     
     
     var body: some View {
@@ -23,7 +24,7 @@ struct OnboardingScreen: View {
                         VStack {
                             ZStack {
                                 Circle()
-                                    .fill(Color.gray)
+                                    .fill(colorScheme == ColorScheme.dark ? Color.white.opacity(0.70) : Color.black.opacity(0.05))
                                     .frame(width: 120, height: 120)
                                     .overlay(
                                         Circle()
