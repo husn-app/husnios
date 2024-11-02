@@ -46,7 +46,12 @@ struct MainScreen: View {
                     if newTab == .Home {
                         feedViewModel.products = []
                     } else if newTab == .Inspiration {
-                        inspirationViewModel.inspirations = []
+                        inspirationViewModel.inspirations.shuffle()
+                        inspirationViewModel.inspirations = inspirationViewModel.inspirations.map { inspiration in
+                            var mutableInspiration = inspiration
+                            mutableInspiration.products.shuffle()
+                            return mutableInspiration
+                        }
                     }
                 }
             }

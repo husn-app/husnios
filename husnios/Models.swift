@@ -98,7 +98,7 @@ struct Product: Identifiable {
 struct Inspiration: Identifiable {
     let id: String
     let category: String
-    let products: [Product]
+    var products: [Product]
     
     init(category: String = "", products: [Product] = []) {
         self.id = category
