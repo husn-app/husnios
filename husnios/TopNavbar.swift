@@ -27,6 +27,7 @@ struct ProfilePic : View {
 }
 struct TopNavbar: View {
     @State private var showLogoutAlert = false
+    @State private var isNavigatingToProfile = false
     
     var body: some View {
         
@@ -37,6 +38,12 @@ struct TopNavbar: View {
                 .fontWeight(.bold)
             Spacer()
             Menu {
+                Button(action: {
+                    isNavigatingToProfile = true
+                }) {
+                    Text("Profile")
+                }
+
                 Button(action: {
                     showLogoutAlert = true
                 }) {
@@ -62,6 +69,9 @@ struct TopNavbar: View {
                 },
                 secondaryButton: .cancel()
             )
+        }
+        NavigationLink(destination: ProfileScreen(), isActive: $isNavigatingToProfile) {
+            EmptyView()
         }
     }
 }

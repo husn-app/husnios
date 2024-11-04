@@ -116,3 +116,29 @@ struct Inspiration: Identifiable {
         }
     }
 }
+
+struct User: Identifiable {
+    let id = UUID()
+    var given_name: String
+    var family_name: String
+    var picture_url: String
+    var email: String
+    var is_private_email: Bool
+    
+    init(given_name: String = "", family_name: String = "", picture_url: String = "", email: String = "", is_private_email: Bool = false) {
+        self.given_name = given_name
+        self.family_name = family_name
+        self.picture_url = picture_url
+        self.email = email
+        self.is_private_email = is_private_email
+    }
+    
+    init(json: [String: Any]) {
+        self.given_name = json["given_name"] as? String ?? ""
+        self.family_name = json["family_name"] as? String ?? ""
+        self.picture_url = json["picture_url"] as? String ?? ""
+        self.email = json["email"] as? String ?? ""
+        self.is_private_email = json["is_private_email"] as? Bool ?? false
+    }
+}
+
