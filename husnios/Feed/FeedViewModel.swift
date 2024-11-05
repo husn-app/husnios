@@ -7,11 +7,19 @@ class FeedViewModel: ObservableObject {
     private var currentPage = 1
     private let pageSize = 16 // Number of products per page
 
-    func fetchFeedProducts() {
-        fetchMoreFeedProducts()
+    func fetchFeedProducts(completion: @escaping () -> Void = {}) {
+        // Prevents concurrent refreshes. 
+        guard !isLoading else { 
+            completion()
+            return 
+        }
+
+        currentPage = 1
+        fetchMoreFeedProducts(completion: completion)
     }
 
-    func fetchMoreFeedProducts() {
+    func fetchMoreFeedProducts(completion: @escaping () -> Void = {}) {
+        print("FETCH FEED PRODUCTS: \(currentPage)")
         guard !isLoading else { return } // Prevent multiple requests
         isLoading = true
 
@@ -42,7 +50,11 @@ class FeedViewModel: ObservableObject {
                     let productsListJson = json["products"] as! [[String: Any]]
                     let newProducts = productsListJson.map { Product(json: $0) }
 
-                    self.products.append(contentsOf: newProducts)  // Append new products
+                    if (self.currentPage == 1) {
+                        self.products = newProducts
+                    } else {
+                        self.products.append(contentsOf: newProducts)
+                    }
                     self.currentPage += 1  // Increment page number
                 } catch {
                     print("Error decoding JSON: \(error)")

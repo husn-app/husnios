@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FeedScreen: View {
     @ObservedObject var viewModel: FeedViewModel
+    @State private var isRefreshing = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -34,6 +35,12 @@ struct FeedScreen: View {
                         }
                     }
                     .padding(.bottom, 70)
+                }
+                .refreshable {
+                    isRefreshing = true
+                    viewModel.fetchFeedProducts() {
+                        isRefreshing = false // Stop refreshing once the data is fetched
+                    }
                 }
             }
         }
