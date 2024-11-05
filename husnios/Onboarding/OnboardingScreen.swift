@@ -7,11 +7,10 @@ struct OnboardingScreen: View {
     @Binding var appState: AppState
     @Environment(\.colorScheme) var colorScheme
     
-    
     var body: some View {
         VStack {
             HStack() {
-                Text("Help us understand you better!").font(.title2).padding()
+                Text("Let's personalize your shopping experience!").font(.title3).padding()
                 Spacer()
             }.padding(.horizontal, 0)
             Divider()
@@ -51,7 +50,6 @@ struct OnboardingScreen: View {
             Text("\(age)").font(.title2)
                 .padding(.top, 4)
             
-            
             HStack(spacing : 20) {
                 Stepper(value: $age, in: 12...72) {}
                     .frame(width:80)
@@ -64,6 +62,15 @@ struct OnboardingScreen: View {
                 .frame(maxWidth: .infinity)
             }
             
+
+            HStack(alignment: .center , spacing : 8) {
+                Image(systemName: "info.circle")
+                    .foregroundColor(.gray)
+                Text("Age and gender are required to show you fashion apparel and accessories that are relevant to you.")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+            }
+            .padding(.top, 40)
             
             Button(action: {
                 submitOnboardingData(age: age, gender: selectedGender) { success in
@@ -82,7 +89,7 @@ struct OnboardingScreen: View {
                     .background(Color.primary.opacity(0.1))
                     .clipShape(Capsule())
             }
-            .padding(.top, 40)
+            .padding(.top, 16)
             .padding(.horizontal, 16)
             Spacer()
         }

@@ -10,17 +10,15 @@ import AuthenticationServices
 struct LoginScreen: View {
     @Binding var appState: AppState
     @Environment(\.colorScheme) var colorScheme
-    @State private var showMoreOptions = false
     
     var body: some View {
-        VStack {
+        VStack (){
             Text("Husn")
                 .font(.custom("Zapfino", size: 72))
                 .foregroundColor(.black)
                 .padding(.vertical, 0)
-            //                .padding(.bottom, 50)
-            
-            VStack {
+
+            VStack(spacing: 12) {
                 Button(
                     action: {
                         handleSignInButton { success in
@@ -30,44 +28,39 @@ struct LoginScreen: View {
                         }
                     }
                 ) {
-                    Image("GoogleSignInButtonDark")
-                        .resizable()
-                        .aspectRatio(contentMode:.fit)
-                        .frame(width: 180)
-
-                }
-                //                .cornerRadius(8)
-                
-                
-                if (!showMoreOptions) {
-                    Button(action: {
-                        showMoreOptions.toggle()
-                    }) {
-                        Text("Show more options >")
+                    HStack (spacing:0){
+                        Image("google.icon.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 44)
+                        
+                        Text("Sign in with Google")
                             .foregroundColor(.white)
-                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .font(.system(size: 22))
                     }
                     
                 }
+                .frame(width: 300, height: 60)
+                .background(Color.black)
+                .cornerRadius(8)
                 
-                if showMoreOptions {
-                    SignInWithAppleButton(
-                        onRequest: handleAppleRequest,
-                        onCompletion: { result in
-                            handleAppleSignIn(result) { success in
-                                if success {
-                                    appState = .Onboarding
-                                }
+                SignInWithAppleButton(
+                    onRequest: handleAppleRequest,
+                    onCompletion: { result in
+                        handleAppleSignIn(result) { success in
+                            if success {
+                                appState = .Onboarding
                             }
                         }
-                    )
-                    .signInWithAppleButtonStyle(.black)
-                    .frame(width: 180, height: 42)
-                }
+                    }
+                )
+                .signInWithAppleButtonStyle(.black)
+                .frame(width: 300, height: 60)
+                
+                Spacer()
             }
-            .scaleEffect(x: 1.8, y: 1.8)
             
-            Spacer()
             
         }.background(
             Image("light-background")
