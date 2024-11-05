@@ -43,9 +43,7 @@ struct MainScreen: View {
                 }
                 .accentColor(.primary)
                 .onChange(of: selectedTab) { newTab in
-                    if newTab == .Home {
-                        feedViewModel.products = []
-                    } else if newTab == .Inspiration {
+                    if newTab == .Inspiration {
                         inspirationViewModel.inspirations.shuffle()
                         inspirationViewModel.inspirations = inspirationViewModel.inspirations.map { inspiration in
                             var mutableInspiration = inspiration
